@@ -5,6 +5,11 @@
     {
       "library": "@microsoft/signalr@latest",
       "destination": "wwwroot/js/signalr"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "vue@2.6.11",
+      "destination": "wwwroot/vue/"
     }
   ]
 }
