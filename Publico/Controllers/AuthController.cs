@@ -10,16 +10,14 @@ using Publico.Data;
 
 namespace Publico.Controllers {
     // Авторизация и регистрация пользователей
-    [Route("api/odata/auth")]
-    [ApiController]
+    [ApiController, Route("api/odata/auth")]
     public class AuthController : ControllerBase {
         private ApplicationDbContext db;
         public AuthController(ApplicationDbContext context) {
             db = context;
         }
         // Метод добавляет пользователя в БД
-        [HttpPost]
-        [Route("create")]
+        [HttpPost, Route("create")]
         public async Task<IActionResult> CreateUser([FromBody] User user) { 
             if (user.Login == null || user.Password == null || user.Email == null) {
                 return Error();
@@ -34,16 +32,17 @@ namespace Publico.Controllers {
         private IActionResult Error() {
             throw new Exception("Проблемы с моделью");
         }
-       // Метод проверяет существование пользователя в БД
-        public IActionResult GetUserFromDb(User user) {
-            if (user.Login == null || user.Email == null || user.Password == null) {
+        // Метод проверяет существование пользователя в БД
+        [HttpPost, Route("signin")]       
+        public async Task<IActionResult> GetUserFromDb(User user) {
+            if (user.Login == null || user.Password == null) {
                 return Error();
             }
-            var getUser = GetIdentity(user);
-            return Ok(getUser);
+            await GetIdentity(user);
+            return Ok("Пользователь успешно авторизован");
         }
         // Метод выбирает пользователя из БД
-        public List<User> GetIdentity(User user) {
+        public async Task <List<User>> GetIdentity(User user) {
             var checkUser = db.Users.FirstOrDefault(l => l.Login == user.Login && l.Password == l.Password);
             if (checkUser != null) {
                 var newUser = new List<User>();
