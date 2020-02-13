@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 namespace Publico.Data {
     public class MultepleContextTable {
         public int Id { get; set; }
-        public string UserLoginId { get; set; }
-        public Login LogUsers { get; set; } 
-        public string UserRegisterId { get; set; }
-        public Register RegUsers { get; set; }
+        public string UserId { get; set; } 
     }
 }

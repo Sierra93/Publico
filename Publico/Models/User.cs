@@ -6,18 +6,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Publico.Models {
-    // Класс регистрации юзера
-    public class Register {
+    // Класс пользователя
+    public class User { 
         public int Id { get; set; }
         [Required]
         public string Login { get; set; }
         [Required]
-        public string Email { get; set; } 
+        public string Email { get; set; }
         [Required]
         public string Password { get; set; }
-        public List<MultepleContextTable> MultepleContextTable { get; set; }
-        public Register() {
-            MultepleContextTable = new List<MultepleContextTable>();
-        }
     }
 }

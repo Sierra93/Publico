@@ -7,8 +7,8 @@ using Publico.Models;
 
 namespace Publico.Data {
     public class ApplicationDbContext : DbContext {
-        public DbSet<Register> UserRegister { get; set; }
-        public DbSet<Login> UserLogin { get; set; }
+        //public DbSet<Register> UserRegister { get; set; }
+        public DbSet<User> Users { get; set; } 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {
             Database.EnsureCreated();   

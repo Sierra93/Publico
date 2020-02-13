@@ -10,9 +10,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link href="~/css/MainStyles.css" rel="stylesheet" />
+	<!-- Подключение фреймворка Vue -->
+	<script src="https://unpkg.com/vue"></script>
 </head>
 <body>
-	<div class="container reg">		
+	<div id="app" class="container reg">
 		<div class="row">
 			<form class="form-reg">
 				<div class="form-group">
@@ -20,24 +22,25 @@
 				</div>
 				<div class="form-group">
 					<label for="exampleInputLogin">Логин</label>
-					<input type="text" class="form-control" id="exampleInputLogin" aria-describedby="loginHelp" placeholder="Введите логин">
+					<input type="text" class="form-control" id="exampleInputLogin" aria-describedby="loginHelp" placeholder="Введите логин" name="login">
 				</div>
 				<div class="form-group">
 					<label for="exampleInputEmail">Email</label>
-					<input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Введите email">
+					<input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Введите email" name="email">
 					<small id="emailHelp" class="form-text text-muted">Ваш email не будет опубликован.</small>
 				</div>
 				<div class="form-group">
 					<label for="exampleInputPassword">Пароль</label>
-					<input type="password" class="form-control" id="exampleInputPassword" placeholder="Пароль">
+					<input type="password" class="form-control" id="exampleInputPassword" placeholder="Пароль" name="password">
 				</div>
 				<div class="form-group">
 					<label for="exampleRepeatInputPassword">Подтверждение пароля</label>
-					<input type="password" class="form-control" id="exampleRepeatInputPassword" placeholder="Подтверждение пароля">
+					<input type="password" class="form-control" id="exampleRepeatInputPassword" placeholder="Подтверждение пароля" name="repeat_password">
 				</div>
-				<button type="submit" class="btn btn-primary">Регистрация</button>
+				<input type="button" class="btn btn-primary" value="Send Message" v-on:click="onRegister" />
 			</form>
 		</div>
-	</div>
+	</div>	
+	<script src="~/js/AuthClient.js"></script>
 </body>
 </html>
