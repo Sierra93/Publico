@@ -1,8 +1,43 @@
-﻿
-@{
-    ViewData["Title"] = "GoToRegister";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+	ViewData["Title"] = "GoToRegister";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>GoToRegister</h1>
-
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Регистрация нового пользователя</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link href="~/css/MainStyles.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="container reg">		
+		<div class="row">
+			<form class="form-reg">
+				<div class="form-group">
+					<h3>Регистрация нового пользователя</h3>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputLogin">Логин</label>
+					<input type="text" class="form-control" id="exampleInputLogin" aria-describedby="loginHelp" placeholder="Введите логин">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail">Email</label>
+					<input type="email" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Введите email">
+					<small id="emailHelp" class="form-text text-muted">Ваш email не будет опубликован.</small>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword">Пароль</label>
+					<input type="password" class="form-control" id="exampleInputPassword" placeholder="Пароль">
+				</div>
+				<div class="form-group">
+					<label for="exampleRepeatInputPassword">Подтверждение пароля</label>
+					<input type="password" class="form-control" id="exampleRepeatInputPassword" placeholder="Подтверждение пароля">
+				</div>
+				<button type="submit" class="btn btn-primary">Регистрация</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

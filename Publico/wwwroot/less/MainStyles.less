@@ -1,0 +1,24 @@
+﻿// Миксин для выравнивания форм регистрации и авторизации
+.mixin-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+// Центрирование контейнера
+.reg {
+    display: flex;
+    justify-content: center;
+}
+// Форма регистрации
+.form-reg {
+    .mixin-center();
+}
+// Форма авторизации
+.form-login {
+    .mixin-center();
+}
