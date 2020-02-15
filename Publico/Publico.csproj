@@ -29,7 +29,7 @@
 
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
+    <ProjectReference Include="..\Publico.Services\Publico.Services.csproj" />
   </ItemGroup>
 
 </Project>
