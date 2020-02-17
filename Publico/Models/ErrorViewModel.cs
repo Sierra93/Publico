@@ -4,8 +4,8 @@ using System;
 namespace Publico.Models {
     // Класс с методами для обработки ошибок
     public class ErrorViewModel {
-        public static IActionResult Error() {
-            throw new Exception("Проблемы с моделью");
-        }
+        public string RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
 }
