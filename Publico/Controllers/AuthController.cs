@@ -7,20 +7,27 @@ using Microsoft.AspNetCore.Mvc;
 using Publico.Models;
 using Microsoft.EntityFrameworkCore;
 using Publico.Data;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace Publico.Controllers {
     // Авторизация и регистрация пользователей
     [ApiController, Route("api/odata/auth")]
-    public class AuthController : ControllerBase {
+    public class AuthController : Controller {
         private ApplicationDbContext db;
         public AuthController(ApplicationDbContext context) {
             db = context;
         }
-        // Метод добавляет пользователя в БД
+        /// <summary>
+        /// Метод добавляет пользователя в БД
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost, Route("create")]
         public async Task<IActionResult> CreateUser([FromBody] User user) { 
             if (user.Login == null || user.Password == null || user.Email == null) {
-                return Error();
+                return ErrorViewModel.Error();
             }
             // Добавляет нового пользователя
             User regUser = new User { Login = user.Login, Email = user.Email, Password = user.Password };
@@ -28,26 +35,48 @@ namespace Publico.Controllers {
             // Сохраняет изменения в БД
             await db.SaveChangesAsync();
             return Ok(regUser); 
-        }
-        private IActionResult Error() {
-            throw new Exception("Проблемы с моделью");
-        }
-        // Метод проверяет существование пользователя в БД
+        }        
+        /// <summary>
+        /// Метод проверяет существование пользователя в БД
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost, Route("signin")]       
-        public async Task<IActionResult> GetUserFromDb(User user) {
+        public IActionResult GetUserFromDb([FromBody] User user) {
             if (user.Login == null || user.Password == null) {
-                return Error();
+                return ErrorViewModel.Error();
             }
-            await GetIdentity(user);
-            return Ok("Пользователь успешно авторизован");
+            var identity = GetIdentity(user.Login, user.Password);
+            var now = DateTime.UtcNow;
+            // Создание JWT-токена
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            // Объект анонимного типа с токеном, который отсылается на фронт
+            var response = new {
+                access_token = encodedJwt,
+                userName = identity.Name
+            };
+            return Json(response);
         }
-        // Метод выбирает пользователя из БД
-        public async Task <List<User>> GetIdentity(User user) {
-            var checkUser = db.Users.FirstOrDefault(l => l.Login == user.Login && l.Password == l.Password);
+        /// <summary>
+        /// Метод выбирает пользователя из БД
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public ClaimsIdentity GetIdentity(string login, string password) {
+            var checkUser = db.Users.FirstOrDefault(l => l.Login == login && l.Password == password);
             if (checkUser != null) {
-                var newUser = new List<User>();
-                newUser.Add(checkUser);
-                return newUser;
+                var claims = new List<Claim> {
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, login),
+                };
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                return claimsIdentity;
             }
             return null;
         }
