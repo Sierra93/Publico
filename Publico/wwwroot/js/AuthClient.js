@@ -39,6 +39,7 @@ var app = new Vue({
 			axios.post(url, UserReg)
 				.then((response) => {
 					console.log(response);
+					window.location.href = "https://localhost:44323/Home/GoToChat";				
 				})
 				.catch((XMLHttpRequest, textStatus, errorThrown) => {
 					console.log("request send error");

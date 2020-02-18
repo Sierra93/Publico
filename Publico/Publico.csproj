@@ -34,4 +34,9 @@
     <ProjectReference Include="..\Publico.Services\Publico.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Views\Data\" />
+  </ItemGroup>
+
 </Project>
