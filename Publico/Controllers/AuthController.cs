@@ -25,7 +25,7 @@ namespace Publico.Controllers {
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost, Route("create")]
-        public async Task<IActionResult> CreateUser([FromBody] User user) { 
+        public async Task<IActionResult> CreateUser([FromBody] User user) {
             if (user.Login == null || user.Password == null || user.Email == null) {
                 return ErrorViewModel.Error();
             }
@@ -34,20 +34,21 @@ namespace Publico.Controllers {
             db.Users.AddRange(regUser);
             // Сохраняет изменения в БД
             await db.SaveChangesAsync();
-            return Ok(regUser); 
-        }        
+            return Ok(regUser);
+        }
         /// <summary>
         /// Метод проверяет существование пользователя в БД
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost, Route("signin")]       
+        [HttpPost, Route("signin")]
         public IActionResult GetUserFromDb([FromBody] User user) {
             if (user.Login == null || user.Password == null) {
                 return ErrorViewModel.Error();
             }
             var identity = GetIdentity(user.Login, user.Password);
             var now = DateTime.UtcNow;
+            if (identity == null) return ErrorViewModel.ErrorToken();
             // Создание JWT-токена
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,

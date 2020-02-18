@@ -1,11 +1,12 @@
 ﻿"use strict";
-$(() => {
+$(function() {
     
 });
+var userName = localStorage.getItem("user");
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("ReceiveMessage", function (userName, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says: " + msg;
+    var encodedMsg = userName + " : " + msg;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
     document.getElementById("messagesList").appendChild(li);
@@ -20,9 +21,9 @@ var app = new Vue({
     data: {},
     methods: {
         onSendMessage: function (event) {   
-            var user = document.getElementById("userInput").value;
+            //var user = document.getElementById("userInput").value;
             var message = document.getElementById("messageInput").value;
-            connection.invoke("SendMessage", user, message).catch(function (err) {
+            connection.invoke("SendMessage", userName, message).catch(function (err) {
                 return console.error(err.toString());
             });
             event.preventDefault();

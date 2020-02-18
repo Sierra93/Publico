@@ -21,7 +21,7 @@ var app = new Vue({
 					console.log(response);
 				})
 				.catch((XMLHttpRequest, textStatus, errorThrown) => {
-					console.log("request send error");
+					console.log("request send error", XMLHttpRequest.response.data);
 				});
 		},
 		// Проверяет существование пользователя в БД
@@ -39,20 +39,21 @@ var app = new Vue({
 			axios.post(url, UserReg)
 				.then((response) => {
 					console.log(response);
-					window.location.href = "https://localhost:44323/Home/GoToChat";
+					localStorage.setItem("token", response.data.access_token);
+					//window.location.href = "https://localhost:44323/Home/GoToChat";
+					//// Проверяет есть ли у пользователя токен
+					var token = localStorage.getItem("token");
+					if (token !== "" && token !== undefined) {
+						window.location.href = "https://localhost:44323/Home/GoToChat";
+					}
+					// Иначе выбросит на главную
+					else {
+						window.location.href = "https://localhost:44323/";
+					}
 				})
 				.catch((XMLHttpRequest, textStatus, errorThrown) => {
-					console.log("request send error");
+					console.log("request send error", XMLHttpRequest.response.data);
 				});
-			var token = localStorage.getItem("token");
-			// Проверяет есть ли у пользователя токен
-			if (token !== "" && token !== undefined) {
-				window.location.href = "https://localhost:44323/Home/GoToChat";
-			}
-			// Иначе выбросит на главную
-			else {
-				window.location.href = "https://localhost:44323/Home/Index";
-			}
 		}
 	}
 });
