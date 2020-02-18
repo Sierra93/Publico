@@ -8,38 +8,44 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/css/MainStyles.css" rel="stylesheet" />
     <!-- Подключение фреймворка Vue -->
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div id="app" class="container">
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-2">User</div>
-            <div class="col-4"><input type="text" id="userInput" /></div>
-        </div>
-        <div class="row">
-            <div class="col-2">Message</div>
-            <div class="col-4"><input type="text" id="messageInput" /></div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
-                <input type="button" id="sendButton" value="Send Message" v-on:click="onSendMessage" />
+        <div class="block">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-12">
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <ul id="messagesList"></ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <hr />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <hr />
+        <div class="message">
+            <div class="row col-lg-12 s">
+                <div><input class="message-area" type="text" id="messageInput" /></div>
+                <div><input class="btn btn-primary btn-sm" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" /></div>
+            </div>
+            @*<div class="row">&nbsp;</div>*@
+            @*<div class="row">
+                <div class="col-6">
+                    <input class="btn btn-primary" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" />
+                </div>
+            </div>*@
         </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <ul id="messagesList"></ul>
-        </div>
-    </div>
+    </div>        
     <script src="~/js/signalr/dist/browser/signalr.js"></script>
     <script src="~/js/chat.js"></script>
 </body>
