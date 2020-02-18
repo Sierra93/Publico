@@ -1,6 +1,6 @@
 ﻿"use strict";
 $(() => {
-    console.log("jQuery");
+    
 });
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 connection.on("ReceiveMessage", function (user, message) {
