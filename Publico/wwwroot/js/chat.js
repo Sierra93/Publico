@@ -6,7 +6,7 @@ var userName = localStorage.getItem("user");
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 connection.on("ReceiveMessage", function (userName, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = userName + " : " + msg;
+    var encodedMsg = userName + ": " + msg;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
     document.getElementById("messagesList").appendChild(li);

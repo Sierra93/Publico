@@ -39,10 +39,10 @@ var app = new Vue({
 			axios.post(url, UserReg)
 				.then((response) => {
 					console.log(response);
-					localStorage.setItem("token", response.data.access_token);
+					localStorage.setItem("user", response.data.userName);
 					//window.location.href = "https://localhost:44323/Home/GoToChat";
 					//// Проверяет есть ли у пользователя токен
-					var token = localStorage.getItem("token");
+					var token = localStorage.getItem("user");
 					if (token !== "" && token !== undefined) {
 						window.location.href = "https://localhost:44323/Home/GoToChat";
 					}
