@@ -23,9 +23,9 @@ var app = new Vue({
         onSendMessage: function (event) {   
             var message = document.getElementById("messageInput").value;
             var userName = localStorage.getItem("user");
-            //connection.invoke("SendMessage", userName, message).catch(function (err) {
-            //    return console.error(err.toString());
-            //});            
+            connection.invoke("SendMessage", userName, message).catch(function (err) {
+                return console.error(err.toString());
+            });            
             event.preventDefault();
         }
     }

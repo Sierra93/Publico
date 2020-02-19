@@ -1,51 +1,59 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <link href="~/css/MainStyles.css" rel="stylesheet" />
-    <!-- Подключение фреймворка Vue -->
-    <script src="https://unpkg.com/vue"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<meta charset="utf-8" />
+	<title>Чат</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" />
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	<link href="~/css/MainStyles.css" rel="stylesheet" />
+	<!-- Подключение фреймворка Vue -->
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <div id="app" class="container">
-        <div class="block">
-            <div class="row">&nbsp;</div>
-            <div class="row">
-                <div class="col-8">
-                    <hr />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <ul id="messagesList"></ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-8">
-                    <hr />
-                </div>
-            </div>
-        </div>
-        <div class="message">
-            <div class="row col-lg-6">
-                <div><input class="message-area" type="text" id="messageInput" /></div>                
-            </div>
-            <div class="row">&nbsp;</div>
-            <div class="row">
-                <div class="col-6">
-                    <input class="btn btn-primary" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" />
-                </div>
-            </div>
-        </div>
-    </div>        
-    <script src="~/js/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/chat.js"></script>
+	<div id="app" class="container">
+		<div class="row">
+			<div class="col-lg-4">
+				Вывести имя пользователя
+			</div>
+			<div class="block col-lg-8">
+				<div class="row">&nbsp;</div>
+				@*<div class="row">
+					<div class="col-8">
+						<hr />
+					</div>
+				</div>*@
+				<div class="row">
+					<div class="col-6">
+						<ul id="messagesList"></ul>
+					</div>
+				</div>
+				@*<div class="row">
+					<div class="col-8">
+						<hr />
+					</div>
+				</div>*@
+			</div>
+		</div>
+		<div class="message row">
+			<div class="col-lg-4">&nbsp;</div>			
+			<div class="col-lg-8 area-message" style="padding-left: 0px!important;">
+				<div class="row col-lg-6">
+					<div><input class="message-area form-control" type="text" id="messageInput" placeholder="Введите сообщение" /></div>
+				</div>
+				<div class="row">
+					<div class="col-6">
+						<input class="btn btn-primary" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="~/js/signalr/dist/browser/signalr.js"></script>
+	<script src="~/js/chat.js"></script>
 </body>
 </html>
