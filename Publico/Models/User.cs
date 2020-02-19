@@ -14,5 +14,9 @@ namespace Publico.Models {
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+        public List<MultepleContextTable> MultepleContextTables { get; set; }  
+        public User() {
+            MultepleContextTables = new List<MultepleContextTable>(); 
+        }
     }
 }

@@ -40,7 +40,6 @@ var app = new Vue({
 				.then((response) => {
 					console.log(response);
 					localStorage.setItem("user", response.data.userName);
-					//window.location.href = "https://localhost:44323/Home/GoToChat";
 					//// Проверяет есть ли у пользователя токен
 					var token = localStorage.getItem("user");
 					if (token !== "" && token !== undefined) {

@@ -21,7 +21,6 @@ var app = new Vue({
     data: {},
     methods: {
         onSendMessage: function (event) {   
-            //var user = document.getElementById("userInput").value;
             var message = document.getElementById("messageInput").value;
             connection.invoke("SendMessage", userName, message).catch(function (err) {
                 return console.error(err.toString());
