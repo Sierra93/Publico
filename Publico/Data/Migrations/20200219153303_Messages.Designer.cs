@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Publico.Data;
 
 namespace Publico.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200219153303_Messages")]
+    partial class Messages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,34 +28,11 @@ namespace Publico.Migrations
                     b.Property<int>("MessageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FriendId")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "MessageId");
-
-                    b.HasIndex("FriendId");
 
                     b.HasIndex("MessageId");
 
                     b.ToTable("MultepleContextTable");
-                });
-
-            modelBuilder.Entity("Publico.Models.Friends", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FriendLogin")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Friends");
                 });
 
             modelBuilder.Entity("Publico.Models.Messages", b =>
@@ -104,12 +83,6 @@ namespace Publico.Migrations
 
             modelBuilder.Entity("Publico.Data.MultepleContextTable", b =>
                 {
-                    b.HasOne("Publico.Models.Friends", "Friend")
-                        .WithMany("MultepleContextTables")
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Publico.Models.Messages", "Message")
                         .WithMany("MultepleContextTables")
                         .HasForeignKey("MessageId")

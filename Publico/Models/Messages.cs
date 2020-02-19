@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace Publico.Models {
     // Класс сообщения пользователя
-    public class UserMessages {
+    public class Messages {
         public int Id { get; set; } 
         [Required]  
-        public string Name { get; set; }
+        public string MessageFrom { get; set; }     // От кого сообщение
         [Required]
-        public string Message { get; set; } 
+        public string Message { get; set; }     // Тело сообщения
+        public string MessageTo { get; set; }   // Кому сообщение
         public List<MultepleContextTable> MultepleContextTables { get; set; } 
-        public UserMessages() {
+        public Messages() { 
             MultepleContextTables = new List<MultepleContextTable>();  
         }
     }

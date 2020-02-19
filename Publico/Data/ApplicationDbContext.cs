@@ -7,9 +7,9 @@ using Publico.Models;
 
 namespace Publico.Data {
     public class ApplicationDbContext : DbContext {
-        //public DbSet<Register> UserRegister { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserMessages> Messages { get; set; }
+        public DbSet<Messages> Messages { get; set; } 
+        public DbSet<Friends> Friends { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {
             Database.EnsureCreated();   
@@ -27,6 +27,10 @@ namespace Publico.Data {
                 .HasOne(sc => sc.Message)
                 .WithMany(c => c.MultepleContextTables)
                 .HasForeignKey(sc => sc.MessageId);
+            modelBuilder.Entity<MultepleContextTable>()
+                .HasOne(sc => sc.Friend)
+                .WithMany(c => c.MultepleContextTables)
+                .HasForeignKey(sc => sc.FriendId);
         }
     }
 }

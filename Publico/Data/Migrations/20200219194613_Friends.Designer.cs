@@ -9,8 +9,8 @@ using Publico.Data;
 namespace Publico.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200219092858_Messages")]
-    partial class Messages
+    [Migration("20200219194613_Friends")]
+    partial class Friends
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,11 +28,57 @@ namespace Publico.Migrations
                     b.Property<int>("MessageId")
                         .HasColumnType("int");
 
+                    b.Property<int>("FriendId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId", "MessageId");
+
+                    b.HasIndex("FriendId");
 
                     b.HasIndex("MessageId");
 
                     b.ToTable("MultepleContextTable");
+                });
+
+            modelBuilder.Entity("Publico.Models.Friends", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FriendLogin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Friends");
+                });
+
+            modelBuilder.Entity("Publico.Models.Messages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageFrom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageTo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Publico.Models.User", b =>
@@ -58,29 +104,15 @@ namespace Publico.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Publico.Models.UserMessages", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Messages");
-                });
-
             modelBuilder.Entity("Publico.Data.MultepleContextTable", b =>
                 {
-                    b.HasOne("Publico.Models.UserMessages", "Message")
+                    b.HasOne("Publico.Models.Friends", "Friend")
+                        .WithMany("MultepleContextTables")
+                        .HasForeignKey("FriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Publico.Models.Messages", "Message")
                         .WithMany("MultepleContextTables")
                         .HasForeignKey("MessageId")
                         .OnDelete(DeleteBehavior.Cascade)

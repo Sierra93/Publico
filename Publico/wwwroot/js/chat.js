@@ -22,9 +22,10 @@ var app = new Vue({
     methods: {
         onSendMessage: function (event) {   
             var message = document.getElementById("messageInput").value;
-            connection.invoke("SendMessage", userName, message).catch(function (err) {
-                return console.error(err.toString());
-            });
+            var userName = localStorage.getItem("user");
+            //connection.invoke("SendMessage", userName, message).catch(function (err) {
+            //    return console.error(err.toString());
+            //});            
             event.preventDefault();
         }
     }
