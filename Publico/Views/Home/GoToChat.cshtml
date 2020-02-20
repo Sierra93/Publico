@@ -8,39 +8,28 @@
 	<link rel="stylesheet" href="~/css/site.css" />
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
 	<link href="~/css/MainStyles.css" rel="stylesheet" />
 	<!-- Подключение фреймворка Vue -->
 	<script src="https://unpkg.com/vue"></script>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>		
 </head>
 <body>
 	<div id="app" class="container">
 		<div class="row">
-			<div class="col-lg-4">
-				Вывести имя пользователя
+			<div id="username" class="col-lg-4">
+
 			</div>
 			<div class="block col-lg-8">
 				<div class="row">&nbsp;</div>
-				@*<div class="row">
-					<div class="col-8">
-						<hr />
-					</div>
-				</div>*@
 				<div class="row">
 					<div class="col-6">
 						<ul id="messagesList"></ul>
 					</div>
 				</div>
-				@*<div class="row">
-					<div class="col-8">
-						<hr />
-					</div>
-				</div>*@
 			</div>
 		</div>
 		<div class="message row">
-			<div class="col-lg-4">&nbsp;</div>			
+			<div class="col-lg-4">&nbsp;</div>
 			<div class="col-lg-8 area-message" style="padding-left: 0px!important;">
 				<div class="row col-lg-6">
 					<div><input class="message-area form-control" type="text" id="messageInput" placeholder="Введите сообщение" /></div>
@@ -55,5 +44,6 @@
 	</div>
 	<script src="~/js/signalr/dist/browser/signalr.js"></script>
 	<script src="~/js/chat.js"></script>
+	<script src="~/js/AuthClient.js"></script>
 </body>
 </html>

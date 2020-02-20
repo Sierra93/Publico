@@ -1,6 +1,10 @@
 ﻿"use strict";
+window.onlod = function() {
+	
+};
 var app = new Vue({
 	el: '#app',
+	data: {},
 	methods: {
 		// Регистрирует пользователя
 		onRegister: function () {

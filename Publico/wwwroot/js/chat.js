@@ -1,8 +1,7 @@
 ﻿"use strict";
-$(function() {
-    
-});
 var userName = localStorage.getItem("user");
+var elem = document.getElementById("username");
+elem.textContent = userName;
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 connection.on("ReceiveMessage", function (userName, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
