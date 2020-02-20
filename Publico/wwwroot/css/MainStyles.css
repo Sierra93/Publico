@@ -33,7 +33,6 @@
 }
 .block {
   background-color: aliceblue;
-  border-top: 1px solid darkgrey;
   border-bottom: 1px solid darkgrey;
   margin-bottom: 5px;
   max-height: 500px;
@@ -42,10 +41,20 @@
 }
 .out {
   display: flex;
+  align-items: center;
+}
+.out .link-out {
+  display: flex;
+  align-items: center;
 }
 .user {
   display: flex;
-  /*.username {
-        margin-right: 10px !important;
-    }*/
+  align-items: center;
+}
+.block-user {
+  background-color: aquamarine;
+  align-items: center;
+}
+.btns {
+  margin-left: 0px!important;
 }

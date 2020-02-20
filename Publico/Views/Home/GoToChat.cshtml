@@ -15,13 +15,15 @@
 </head>
 <body>
 	<div id="app" class="container">
-		<div class="row">
+		<div class="row block-user">
 			<div class="user col-lg-4">
 				<div id="username" style="margin-right: 10px;">
 
 				</div>
 				<div class="out">
-					<a href="#">выйти</a>
+					<a href="#" class="link-out">выйти</a>
+					<div>&nbsp;</div>
+					<input type="search" class="form-control" placeholder="Введите никнем друга" style="height: 20px!important;" />
 				</div>
 			</div>
 			<div class="col-lg-8 text-center">Имя друга</div>
@@ -45,9 +47,17 @@
 				<div class="row col-lg-6">
 					<div><input class="message-area form-control" type="text" id="messageInput" placeholder="Введите сообщение" /></div>
 				</div>
-				<div class="row">
-					<div class="col-6">
-						<input class="btn btn-primary" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" />
+				<div class="row btns">
+					<div>
+						<input class="btn btn-primary btn-sm" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" />
+					</div>
+					<div>&nbsp;</div>
+					<div>
+						<input class="btn btn-primary btn-sm" type="button" value="Прикрепить документ" />
+					</div>
+					<div>&nbsp;</div>
+					<div>
+						<input class="btn btn-primary btn-sm" type="button" value="Прикрепить аудиозапись" />
 					</div>
 				</div>
 			</div>
@@ -55,6 +65,6 @@
 	</div>
 	<script src="~/js/signalr/dist/browser/signalr.js"></script>
 	<script src="~/js/chat.js"></script>
-	<script src="~/js/AuthClient.js"></script>
+	@*<script src="~/js/AuthClient.js"></script>*@
 </body>
 </html>

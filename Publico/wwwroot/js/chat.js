@@ -2,6 +2,7 @@
 var userName = localStorage.getItem("user");
 var elem = document.getElementById("username");
 elem.textContent = userName;
+
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 connection.on("ReceiveMessage", function (userName, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -15,13 +16,13 @@ connection.start().then(function () {
 }).catch(function (err) {
     return console.error(err.toString());
 });
+
 var app = new Vue({    
     el: '#app',
-    data: {},
     methods: {
         onSendMessage: function (event) {   
             var message = document.getElementById("messageInput").value;
-            var userName = localStorage.getItem("user");
+            //var userName = localStorage.getItem("user");
             connection.invoke("SendMessage", userName, message).catch(function (err) {
                 return console.error(err.toString());
             });            
@@ -29,3 +30,11 @@ var app = new Vue({
         }
     }
 });
+//var app = new Vue({
+//	el: '#app',
+//	methods: {	
+//		onTest: function () {
+//			console.log("test");
+//		}
+//	}
+//});
