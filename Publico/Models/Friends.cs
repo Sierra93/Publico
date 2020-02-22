@@ -8,8 +8,9 @@ namespace Publico.Models {
     // Класс друзей пользователя
     public class Friends {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public string FriendLogin { get; set; }
+        public int Status { get; set; }
         public List<MultepleContextTable> MultepleContextTables { get; set; }
         public Friends() { 
             MultepleContextTables = new List<MultepleContextTable>();

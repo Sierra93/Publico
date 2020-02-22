@@ -9,9 +9,7 @@ namespace Publico.Models {
     // Класс сообщения пользователя
     public class Messages {
         public int Id { get; set; } 
-        [Required]  
         public string MessageFrom { get; set; }     // От кого сообщение
-        [Required]
         public string Message { get; set; }     // Тело сообщения
         public string MessageTo { get; set; }   // Кому сообщение
         public List<MultepleContextTable> MultepleContextTables { get; set; } 

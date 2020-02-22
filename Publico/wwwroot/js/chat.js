@@ -22,19 +22,29 @@ var app = new Vue({
     methods: {
         onSendMessage: function (event) {   
             var message = document.getElementById("messageInput").value;
-            //var userName = localStorage.getItem("user");
             connection.invoke("SendMessage", userName, message).catch(function (err) {
                 return console.error(err.toString());
             });            
             event.preventDefault();
+        },
+        // Добавляет друга
+        onAddFriend: () => {
+            let url = "https://localhost:44323/api/odata/data/addfriend";
+            //let whoFriend = document.getElementById("add-friend").value;
+            //let userId = localStorage.getItem("user_id").toString();
+            //let status = "0";
+            let oData = {                
+                UserId: localStorage.getItem("user_id").toString(),
+                FriendLogin: document.getElementById("add-friend").value,
+                Status: 0
+            };
+            axios.post(url, oData)
+                .then((response) => {
+                    console.log(response);                    
+                })
+                .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                    console.log("request send error", XMLHttpRequest.response.data);
+                });
         }
     }
 });
-//var app = new Vue({
-//	el: '#app',
-//	methods: {	
-//		onTest: function () {
-//			console.log("test");
-//		}
-//	}
-//});

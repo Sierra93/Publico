@@ -23,7 +23,7 @@
 				<div class="out">
 					<a href="#" class="link-out">выйти</a>
 					<div>&nbsp;</div>
-					<input type="search" class="form-control" placeholder="Введите никнем друга" style="height: 20px!important;" />
+					<input id="add-friend" type="search" class="form-control" placeholder="Введите никнем друга" style="height: 20px!important; width: 250px;" v-on:keyup.enter="onAddFriend" />
 				</div>
 			</div>
 			<div class="col-lg-8 text-center">Имя друга</div>
@@ -64,7 +64,7 @@
 		</div>
 	</div>
 	<script src="~/js/signalr/dist/browser/signalr.js"></script>
-	<script src="~/js/chat.js"></script>
+	<script src="~/js/Chat.js"></script>
 	@*<script src="~/js/AuthClient.js"></script>*@
 </body>
 </html>

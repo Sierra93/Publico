@@ -31,11 +31,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Views\Data\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <ProjectReference Include="..\Publico.Services\Publico.Services.csproj" />
     <ProjectReference Include="..\Publico.Tests\Publico.Tests.csproj" />
   </ItemGroup>

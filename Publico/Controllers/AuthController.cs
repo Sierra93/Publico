@@ -43,12 +43,18 @@ namespace Publico.Controllers {
         /// <returns></returns>
         [HttpPost, Route("signin")]
         public IActionResult GetUserFromDb([FromBody] User user) {
+            User userobj = new User();  // Объект пользователя, из которого возьмем только ID для возврата фронту
             if (user.Login == null || user.Password == null) {
-                return ErrorViewModel.Error();
+                return ErrorViewModel.Error(); 
             }
+            // Проверяет, есть ли пользователь в БД
             var identity = GetIdentity(user.Login, user.Password);
+            // Если пользователь найден, то получаем его ID 
+            if (identity != null) {
+                userobj = db.Users.FirstOrDefault(x => x.Login == user.Login);
+            }
             var now = DateTime.UtcNow;
-            if (identity == null) return ErrorViewModel.ErrorToken();
+            if (identity == null) { return ErrorViewModel.ErrorToken(); }
             // Создание JWT-токена
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
@@ -61,7 +67,8 @@ namespace Publico.Controllers {
             // Объект анонимного типа с токеном, который отсылается на фронт
             var response = new {
                 access_token = encodedJwt,
-                userName = identity.Name
+                userName = identity.Name,
+                id = userobj.Id
             };
             return Json(response);
         }
