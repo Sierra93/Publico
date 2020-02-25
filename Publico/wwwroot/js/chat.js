@@ -1,7 +1,6 @@
 ﻿"use strict";
 $(function () {
     app.onInit();
-    //app.onAddFriendContent();    
 });
 var userName = localStorage.getItem("user");
 var elem = document.getElementById("username");
@@ -45,23 +44,7 @@ var app = new Vue({
                     console.log("request send error", XMLHttpRequest.response.data);
                 });
         },
-        // Добавляет каждого друга в отдельный блок, который создает
-        onAddFriendContent: function () {
-            var main = document.getElementsByClassName("friend");   
-            var arrFriends = localStorage.getItem("friends");
-            var newArrFriends = arrFriends.split(",");
-            newArrFriends.forEach(function (el) {
-                var divContent = document.createElement("div");
-                divContent.classList.add("block-friend");
-                main[el].insertBefore(divContent, main.childNodes);
-                var p = document.createElement("p");
-                p.classList.add("friend");
-                //newArrFriends.forEach(function (item) {
-                p.textContent = newArrFriends[0];
-                //});                
-            });
-        },
-        onSendMessage: function (event) {
+        onSendMessage: (event) => {
             var message = document.getElementById("messageInput").value;
             connection.invoke("SendMessage", userName, message).catch(function (err) {
                 return console.error(err.toString());

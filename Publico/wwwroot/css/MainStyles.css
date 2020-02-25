@@ -67,8 +67,19 @@
 }
 .friends .friends-list {
   list-style: none;
+  text-align: center;
 }
 .friends .item {
   border-top: 1px solid darkgreen;
   border-bottom: 1px solid darkgreen;
+}
+.friends .friend-link {
+  text-decoration: none;
+  float: right;
+  margin-left: 10px;
+}
+.friends .write-friend {
+  float: right;
+  margin-left: 10px;
+  text-decoration: none;
 }

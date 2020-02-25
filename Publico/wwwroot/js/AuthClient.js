@@ -1,12 +1,9 @@
 ﻿"use strict";
-window.onlod = function() {
-	
-};
 var app = new Vue({
 	el: '#app',
 	methods: {
 		// Регистрирует пользователя
-		onRegister: function () {
+		onRegister: () => {
 			// Получение данных с форм ввода
 			var login = document.getElementById("exampleInputLogin").value;
 			var email = document.getElementById("exampleInputEmail").value;
@@ -28,7 +25,7 @@ var app = new Vue({
 				});
 		},
 		// Проверяет существование пользователя в БД
-		onSignIn: function () {
+		onSignIn: () => {
 			// Получение данных с форм ввода
 			var login = document.getElementById("exampleInputLogin").value;
 			var password = document.getElementById("exampleInputPassword").value;
