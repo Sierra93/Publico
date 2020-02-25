@@ -23,7 +23,8 @@ connection.start().then(function () {
 var app = new Vue({
     el: '#app',
     data: {
-        friends: localStorage.getItem("friends").split(",")
+        friends: localStorage.getItem("friends").split(","),
+        nameFriend: localStorage.getItem("indFriend")
     },
     methods: {
         onInit: () => {
@@ -66,6 +67,12 @@ var app = new Vue({
                 .catch((XMLHttpRequest, textStatus, errorThrown) => {
                     console.log("request send error", XMLHttpRequest.response.data);
                 });
+        },
+        // Передает имя друга, которому хотим написать
+        onSelectFriend: () => {
+            // Получает имя друга, которому пишем
+            let indFriend = event.target.parentElement.childNodes[0].data;
+            localStorage.setItem("indFriend", indFriend);
         }
     }
 });

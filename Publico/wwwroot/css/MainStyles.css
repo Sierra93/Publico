@@ -83,3 +83,6 @@
   margin-left: 10px;
   text-decoration: none;
 }
+.friends .hidden {
+  display: none;
+}

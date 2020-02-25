@@ -26,13 +26,13 @@
 					<input id="add-friend" type="search" class="form-control" placeholder="Введите никнейм друга" style="height: 20px!important; width: 250px;" v-on:keyup.enter="onAddFriend" />
 				</div>
 			</div>
-			<div class="col-lg-8 text-center">Имя друга</div>
+			<div class="col-lg-8 text-center">{{nameFriend}}</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-4">
 				<div class="friends">
-					<ul class="friends-list">
-						<li class="item" v-for="friend in friends">{{friend}} <a href="#" class="write-friend">написать</a> <a href="#" class="friend-link">удалить</a></li>
+					<ul id="select" class="friends-list">
+						<li class="item" v-for="friend in friends">{{friend}} <a href="" v-on:click="onSelectFriend" class="write-friend">написать</a> <a href="#" class="friend-link">удалить</a></li>
 					</ul>
 				</div>
 			</div>
