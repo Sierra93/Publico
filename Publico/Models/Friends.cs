@@ -10,7 +10,6 @@ namespace Publico.Models {
         public int Id { get; set; }
         public string UserId { get; set; }
         public string FriendLogin { get; set; }
-        public int Status { get; set; }
         public List<MultepleContextTable> MultepleContextTables { get; set; }
         public Friends() { 
             MultepleContextTables = new List<MultepleContextTable>();

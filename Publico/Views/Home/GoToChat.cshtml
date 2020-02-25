@@ -11,7 +11,7 @@
 	<link href="~/css/MainStyles.css" rel="stylesheet" />
 	<!-- Подключение фреймворка Vue -->
 	<script src="https://unpkg.com/vue"></script>
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>		
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
 	<div id="app" class="container">
@@ -23,14 +23,19 @@
 				<div class="out">
 					<a href="#" class="link-out">выйти</a>
 					<div>&nbsp;</div>
-					<input id="add-friend" type="search" class="form-control" placeholder="Введите никнем друга" style="height: 20px!important; width: 250px;" v-on:keyup.enter="onAddFriend" />
+					<input id="add-friend" type="search" class="form-control" placeholder="Введите никнейм друга" style="height: 20px!important; width: 250px;" v-on:keyup.enter="onAddFriend" />
 				</div>
 			</div>
+
 			<div class="col-lg-8 text-center">Имя друга</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-4">
-
+				<div class="friends">
+					<ul class="friends-list">
+						<li class="item" v-for="friend in friends">{{friend}}</li>
+					</ul>
+				</div>
 			</div>
 			<div class="block col-lg-8">
 				<div class="row">&nbsp;</div>

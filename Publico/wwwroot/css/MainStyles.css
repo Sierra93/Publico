@@ -58,3 +58,17 @@
 .btns {
   margin-left: 0px!important;
 }
+.friends {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: aliceblue;
+}
+.friends .friends-list {
+  list-style: none;
+}
+.friends .item {
+  border-top: 1px solid darkgreen;
+  border-bottom: 1px solid darkgreen;
+}

@@ -31,8 +31,7 @@ namespace Publico.Controllers {
                 // Получение полей из модели 
                 Friends fr1 = new Friends {
                     UserId = modelf.UserId,
-                    FriendLogin = modelf.FriendLogin,
-                    Status = modelf.Status
+                    FriendLogin = modelf.FriendLogin
                 };
                 // Добавляет в БД
                 await db.Friends.AddRangeAsync(fr1);
@@ -41,6 +40,16 @@ namespace Publico.Controllers {
                 return Ok();
             }
             return ErrorViewModel.Error();
+        }
+        /// <summary>
+        /// Метод получает список друзей пользователя
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("getfriends")]
+        public async Task<IActionResult> GetFriendsList(string id) { 
+            // Выборка списка друзей
+            var friends = await db.Friends.Where(f => f.UserId == id).ToListAsync();
+            return Json(friends);
         }
     }
 }
