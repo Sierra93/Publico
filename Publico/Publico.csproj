@@ -6,6 +6,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20200226201814_Messages.cs" />
+    <Compile Remove="Data\Migrations\20200226201814_Messages.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226204353_Messages.cs" />
+    <Compile Remove="Data\Migrations\20200226204353_Messages.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226204435_Messages.cs" />
+    <Compile Remove="Data\Migrations\20200226204435_Messages.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226205247_MultepleContextTable.cs" />
+    <Compile Remove="Data\Migrations\20200226205247_MultepleContextTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226211256_Friends.cs" />
+    <Compile Remove="Data\Migrations\20200226211256_Friends.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226211344_Messages.cs" />
+    <Compile Remove="Data\Migrations\20200226211344_Messages.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226211417_Messages.cs" />
+    <Compile Remove="Data\Migrations\20200226211417_Messages.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226211448_Messages.cs" />
+    <Compile Remove="Data\Migrations\20200226211448_Messages.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -19,12 +38,15 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>

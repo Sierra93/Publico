@@ -1,4 +1,7 @@
-﻿.mixin-center {
+﻿body {
+  background-color: darkslategray;
+}
+.mixin-center {
   align-items: center;
   display: flex;
   justify-content: center;

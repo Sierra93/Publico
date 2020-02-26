@@ -47,9 +47,10 @@ var app = new Vue({
         },
         onSendMessage: (event) => {
             var message = document.getElementById("messageInput").value;
-            connection.invoke("SendMessage", userName, message).catch(function (err) {
+            connection.invoke("SendMessage", userName, message).catch(function (err) {                
                 return console.error(err.toString());
             });
+            document.getElementById("messageInput").value = "";
             event.preventDefault();
         },
         // Добавляет друга
