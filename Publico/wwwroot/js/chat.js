@@ -51,12 +51,8 @@ var app = new Vue({
             // Очищает поле сразу после отправки
             document.getElementById("messageInput").value = "";                      
             axios.post(sUrl, oData)
-                .then(() => {
-                    //localStorage.setItem("chat_id", numChat);
-                    // Выводит сообщение в чат
-                    var li = document.createElement("li");
-                    li.textContent = sMessage;
-                    document.getElementById("messagesList").appendChild(li);
+                .then((response) => {
+                    console.log(response);
                 })
                 .catch((XMLHttpRequest, textStatus, errorThrown) => {
                     console.log("request send error", XMLHttpRequest.response.data);
