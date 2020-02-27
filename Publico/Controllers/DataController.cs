@@ -51,5 +51,20 @@ namespace Publico.Controllers {
             var friends = await db.Friends.Where(f => f.UserId == id).ToListAsync();
             return Json(friends);
         }
+        /// <summary>
+        /// Метод записывает сообщение в таблицу сообщений
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, Route("sendmessage")]
+        public async Task<IActionResult> SendMessage(Messages msg) {
+            Messages objMsg = new Messages { 
+                MessageUserId = msg.MessageUserId,
+                MessageBody = msg.MessageBody,
+                ChatId = msg.ChatId
+            };
+            await db.Messages.AddAsync(objMsg);
+            await db.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

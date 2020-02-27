@@ -6,19 +6,19 @@ var userName = localStorage.getItem("user");
 var elem = document.getElementById("username");
 elem.textContent = userName;
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-connection.on("ReceiveMessage", function (userName, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = userName + ": " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
-});
-connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
-}).catch(function (err) {
-    return console.error(err.toString());
-});
+//var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+//connection.on("ReceiveMessage", function (userName, message) {
+//    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+//    var encodedMsg = userName + ": " + msg;
+//    var li = document.createElement("li");
+//    li.textContent = encodedMsg;
+//    document.getElementById("messagesList").appendChild(li);
+//});
+//connection.start().then(function () {
+//    document.getElementById("sendButton").disabled = false;
+//}).catch(function (err) {
+//    return console.error(err.toString());
+//});
 
 var app = new Vue({
     el: '#app',
@@ -29,7 +29,7 @@ var app = new Vue({
     methods: {
         onInit: () => {
             let userId = localStorage.getItem("user_id");
-            let url = "https://localhost:44323/api/odata/data/getfriends?id=" + userId;  
+            let url = "https://localhost:44323/api/odata/data/getfriends?id=" + userId;
             let friendArr = [];
             axios.get(url)
                 .then((response) => {
@@ -45,13 +45,36 @@ var app = new Vue({
                     console.log("request send error", XMLHttpRequest.response.data);
                 });
         },
-        onSendMessage: (event) => {
-            var message = document.getElementById("messageInput").value;
-            connection.invoke("SendMessage", userName, message).catch(function (err) {                
-                return console.error(err.toString());
-            });
+        // Отправляет сообщение
+        onSendMessage: () => {
+            // Получает случайное число для ID чата
+            let numChat = app.getRandomNumber(1000);
+            // Получает введенное сообщение
+            var sMessage = document.getElementById("messageInput").value;
+            // Очищает поле сразу после отправки
             document.getElementById("messageInput").value = "";
-            event.preventDefault();
+            let sUrl = "https://localhost:44323/api/odata/data/sendmessage";
+            let oData = {
+                MessageUserId: localStorage.getItem("user_id"),
+                MessageBody: sMessage,
+                ChatId: numChat.toString()
+            };
+            axios.post(sUrl, oData)
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                    console.log("request send error", XMLHttpRequest.response.data);
+                });
+
+            //connection.invoke("SendMessage", userName, message).catch(function (err) {                
+            //    return console.error(err.toString());
+            //});            
+            //event.preventDefault();
+        },
+        // Создает случайное число, которое будет ID чата
+        getRandomNumber: (max) => {
+            return Math.floor(Math.random() * Math.floor(max));
         },
         // Добавляет друга
         onAddFriend: () => {
