@@ -6,20 +6,6 @@ var userName = localStorage.getItem("user");
 var elem = document.getElementById("username");
 elem.textContent = userName;
 
-//var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-//connection.on("ReceiveMessage", function (userName, message) {
-//    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-//    var encodedMsg = userName + ": " + msg;
-//    var li = document.createElement("li");
-//    li.textContent = encodedMsg;
-//    document.getElementById("messagesList").appendChild(li);
-//});
-//connection.start().then(function () {
-//    document.getElementById("sendButton").disabled = false;
-//}).catch(function (err) {
-//    return console.error(err.toString());
-//});
-
 var app = new Vue({
     el: '#app',
     data: {
@@ -33,7 +19,6 @@ var app = new Vue({
             let friendArr = [];
             axios.get(url)
                 .then((response) => {
-                    console.log(response);
                     // Перебор результирующего массива и добавления имен друзей в отдельный массив
                     response.data.forEach(function (el) {
                         friendArr.push(el.friendLogin);
@@ -60,17 +45,15 @@ var app = new Vue({
                 ChatId: numChat.toString()
             };
             axios.post(sUrl, oData)
-                .then((response) => {
-                    console.log(response);
+                .then(() => {
+                    // Выводит сообщение в чат
+                    var li = document.createElement("li");
+                    li.textContent = sMessage;
+                    document.getElementById("messagesList").appendChild(li);
                 })
                 .catch((XMLHttpRequest, textStatus, errorThrown) => {
                     console.log("request send error", XMLHttpRequest.response.data);
                 });
-
-            //connection.invoke("SendMessage", userName, message).catch(function (err) {                
-            //    return console.error(err.toString());
-            //});            
-            //event.preventDefault();
         },
         // Создает случайное число, которое будет ID чата
         getRandomNumber: (max) => {
@@ -85,8 +68,7 @@ var app = new Vue({
                 Status: 0
             };
             axios.post(url, oData)
-                .then((response) => {
-                    console.log(response);
+                .then(() => {
                 })
                 .catch((XMLHttpRequest, textStatus, errorThrown) => {
                     console.log("request send error", XMLHttpRequest.response.data);
