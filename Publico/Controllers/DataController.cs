@@ -56,14 +56,19 @@ namespace Publico.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost, Route("sendmessage")]
-        public async Task<IActionResult> SendMessage(Messages msg) {
-            Messages objMsg = new Messages { 
-                MessageUserId = msg.MessageUserId,
-                MessageBody = msg.MessageBody,
-                ChatId = msg.ChatId
-            };
-            await db.Messages.AddAsync(objMsg);
-            await db.SaveChangesAsync();
+        public async Task<IActionResult> SendMessage(Dialogs msg) {
+            //Dialogs objMsg = new Dialogs {
+            //    FromMessageUserId = msg.FromMessageUserId,
+            //    MessageBody = msg.MessageBody
+            //};
+            //if (msg.ChatId != null) {
+            //    objMsg.ChatId = msg.ChatId;
+            //}
+            //else {
+            //    objMsg.ChatId = null;
+            //}
+            //await db.Messages.AddAsync(objMsg);
+            //await db.SaveChangesAsync();
             return Ok();
         }
     }

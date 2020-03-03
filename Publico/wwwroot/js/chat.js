@@ -31,21 +31,28 @@ var app = new Vue({
                 });
         },
         // Отправляет сообщение
-        onSendMessage: () => {
-            // Получает случайное число для ID чата
-            let numChat = app.getRandomNumber(1000);
+        onSendMessage: () => {     
+            //let numChat = null;
+            let sUrl = "https://localhost:44323/api/odata/data/sendmessage";
+            //let chatId = localStorage.getItem("chat_id");            
             // Получает введенное сообщение
             var sMessage = document.getElementById("messageInput").value;
-            // Очищает поле сразу после отправки
-            document.getElementById("messageInput").value = "";
-            let sUrl = "https://localhost:44323/api/odata/data/sendmessage";
+            let numChat = app.getRandomNumber(1000);
+            // Проверяет, писали ли мы уже пользователю(был ли уже создан ID чата)
+            //if (chatId === null) {
+            //    // Получает случайное число для ID чата
+            //    numChat = app.getRandomNumber(1000);
+            //}
             let oData = {
                 MessageUserId: localStorage.getItem("user_id"),
                 MessageBody: sMessage,
                 ChatId: numChat.toString()
-            };
+            };  
+            // Очищает поле сразу после отправки
+            document.getElementById("messageInput").value = "";                      
             axios.post(sUrl, oData)
                 .then(() => {
+                    //localStorage.setItem("chat_id", numChat);
                     // Выводит сообщение в чат
                     var li = document.createElement("li");
                     li.textContent = sMessage;
@@ -80,5 +87,9 @@ var app = new Vue({
             let indFriend = event.target.parentElement.childNodes[0].data;
             localStorage.setItem("indFriend", indFriend);
         }
+        // Получает все сообщения выбранного чата
+        //onGetMessages: () => {
+
+        //}
     }
 });

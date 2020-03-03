@@ -22,6 +22,24 @@
     <Compile Remove="Data\Migrations\20200226211417_Messages.Designer.cs" />
     <Compile Remove="Data\Migrations\20200226211448_Messages.cs" />
     <Compile Remove="Data\Migrations\20200226211448_Messages.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200303093411_MultepleContextTable.cs" />
+    <Compile Remove="Data\Migrations\20200303093411_MultepleContextTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200303093601_MultepleContextTable.cs" />
+    <Compile Remove="Data\Migrations\20200303093601_MultepleContextTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200303093652_Answers.cs" />
+    <Compile Remove="Data\Migrations\20200303093652_Answers.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200303093859_MultepleContextTable.cs" />
+    <Compile Remove="Data\Migrations\20200303093859_MultepleContextTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200303094007_MultepleContextTable.cs" />
+    <Compile Remove="Data\Migrations\20200303094007_MultepleContextTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200303095138_MultepleContextTable.cs" />
+    <Compile Remove="Data\Migrations\20200303095138_MultepleContextTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200303104314_Dialogs.cs" />
+    <Compile Remove="Data\Migrations\20200303104314_Dialogs.Designer.cs" />
+    <Compile Remove="Migrations\20200303111944_Friends.cs" />
+    <Compile Remove="Migrations\20200303111944_Friends.Designer.cs" />
+    <Compile Remove="Migrations\20200303112016_Friends.cs" />
+    <Compile Remove="Migrations\20200303112016_Friends.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +73,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Publico.Services\Publico.Services.csproj" />
     <ProjectReference Include="..\Publico.Tests\Publico.Tests.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

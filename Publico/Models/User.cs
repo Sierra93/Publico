@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Publico.Models {
-    // Класс пользователя
+    // Класс пользователей
     public class User { 
         public int Id { get; set; }
         [Required]
