@@ -10,5 +10,11 @@ namespace Publico.Data {
         public User User { get; set; }
         public int InfoId { get; set; }
         public Info Info { get; set; }
+        public int MessageId { get; set; }
+        public Messages Message { get; set; }
+        public int MessageTranId { get; set; }
+        public MessagesTranslate MessageTran { get; set; }
+        public int UsersRelId { get; set; }
+        public UsersRelations UsersRel { get; set; }
     }
 }

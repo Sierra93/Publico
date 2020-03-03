@@ -25,20 +25,20 @@ namespace Publico.Controllers {
         /// <param name="modelm"></param>
         /// <returns></returns>
         [HttpPost, Route("addfriend")]
-        public async Task<IActionResult> AddFriend(Friends modelf) {
+        public async Task<IActionResult> AddFriend() {
             // Если модель корректна, то добавляет данные в БД
-            if (modelf.UserId != null && modelf.FriendLogin != null) {
-                // Получение полей из модели 
-                Friends fr1 = new Friends {
-                    UserId = modelf.UserId,
-                    FriendLogin = modelf.FriendLogin
-                };
-                // Добавляет в БД
-                await db.Friends.AddRangeAsync(fr1);
-                // Сохраняет изменения
-                await db.SaveChangesAsync();
-                return Ok();
-            }
+            //if (modelf.UserId != null && modelf.FriendLogin != null) {
+            //    // Получение полей из модели 
+            //    //Friends fr1 = new Friends {
+            //    //    UserId = modelf.UserId,
+            //    //    FriendLogin = modelf.FriendLogin
+            //    //};
+            //    // Добавляет в БД
+            //    //await db.Friends.AddRangeAsync(fr1);
+            //    // Сохраняет изменения
+            //    await db.SaveChangesAsync();
+            //    return Ok();
+            //}
             return ErrorViewModel.Error();
         }
         /// <summary>
@@ -46,17 +46,18 @@ namespace Publico.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet, Route("getfriends")]
-        public async Task<IActionResult> GetFriendsList(string id) { 
+        public async Task<IActionResult> GetFriendsList(string id) {
             // Выборка списка друзей
-            var friends = await db.Friends.Where(f => f.UserId == id).ToListAsync();
-            return Json(friends);
+            //var friends = await db.Friends.Where(f => f.UserId == id).ToListAsync();
+            //return Json(friends);
+            return null;
         }
         /// <summary>
         /// Метод записывает сообщение в таблицу сообщений
         /// </summary>
         /// <returns></returns>
         [HttpPost, Route("sendmessage")]
-        public async Task<IActionResult> SendMessage(Dialogs msg) {
+        public async Task<IActionResult> SendMessage() {
             //Dialogs objMsg = new Dialogs {
             //    FromMessageUserId = msg.FromMessageUserId,
             //    MessageBody = msg.MessageBody

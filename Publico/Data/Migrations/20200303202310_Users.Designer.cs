@@ -10,7 +10,7 @@ using Publico.Data;
 namespace Publico.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200303111924_Users")]
+    [Migration("20200303202310_Users")]
     partial class Users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,92 +28,97 @@ namespace Publico.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AnswerId")
+                    b.Property<int>("InfoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AnswersId")
+                    b.Property<int>("MessageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DialogId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DialogsUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FriendId")
+                    b.Property<int>("MessageTranId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId1")
                         .HasColumnType("int");
 
+                    b.Property<int>("UsersRelId")
+                        .HasColumnType("int");
+
                     b.HasKey("UserId");
 
-                    b.HasIndex("AnswersId");
+                    b.HasIndex("InfoId");
 
-                    b.HasIndex("DialogsUserId");
+                    b.HasIndex("MessageId");
 
-                    b.HasIndex("FriendId");
+                    b.HasIndex("MessageTranId");
 
                     b.HasIndex("UserId1");
+
+                    b.HasIndex("UsersRelId");
 
                     b.ToTable("MultepleContextTable");
                 });
 
-            modelBuilder.Entity("Publico.Models.Answers", b =>
+            modelBuilder.Entity("Publico.Models.Info", b =>
+                {
+                    b.Property<int>("InfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("UserIdFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserIdTo")
+                        .HasColumnType("int");
+
+                    b.HasKey("InfoId");
+
+                    b.ToTable("Info");
+                });
+
+            modelBuilder.Entity("Publico.Models.Messages", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AIdFk")
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Answer")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("UserIdFk")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ToUserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Answers");
+                    b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Publico.Models.Dialogs", b =>
-                {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("UserOne")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserTwo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Dialogs");
-                });
-
-            modelBuilder.Entity("Publico.Models.Friends", b =>
+            modelBuilder.Entity("Publico.Models.MessagesTranslate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("FriendLogin")
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Friends");
+                    b.ToTable("MessageTranslate");
                 });
 
             modelBuilder.Entity("Publico.Models.User", b =>
@@ -122,6 +127,9 @@ namespace Publico.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -139,25 +147,53 @@ namespace Publico.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Publico.Models.UsersRelations", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ToUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UsersRelations");
+                });
+
             modelBuilder.Entity("Publico.Data.MultepleContextTable", b =>
                 {
-                    b.HasOne("Publico.Models.Answers", "Answers")
+                    b.HasOne("Publico.Models.Info", "Info")
                         .WithMany("MultepleContextTables")
-                        .HasForeignKey("AnswersId");
+                        .HasForeignKey("InfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Publico.Models.Dialogs", "Dialogs")
+                    b.HasOne("Publico.Models.Messages", "Message")
                         .WithMany("MultepleContextTables")
-                        .HasForeignKey("DialogsUserId");
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Publico.Models.Friends", "Friend")
+                    b.HasOne("Publico.Models.MessagesTranslate", "MessageTran")
                         .WithMany("MultepleContextTables")
-                        .HasForeignKey("FriendId")
+                        .HasForeignKey("MessageTranId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Publico.Models.User", "User")
                         .WithMany("MultepleContextTables")
                         .HasForeignKey("UserId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Publico.Models.UsersRelations", "UsersRel")
+                        .WithMany("MultepleContextTables")
+                        .HasForeignKey("UsersRelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
