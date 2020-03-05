@@ -45,14 +45,12 @@ namespace Publico.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet, Route("getfriends")]
-        public async Task<IActionResult> GetFriendsList([FromQuery] string id) {
+        public async Task<IActionResult> GetFriendsList([FromQuery] int id) {
             // Выборка списка друзей
-            var oFriends = await db.UsersRelations.Join(db.Users,
-                f1 => f1.UserId,
-                f2 => f2.Id,
-                (f1, f2) => new {
-                    friends = f2.Login
-                }).ToListAsync();
+            var oFriends = await (from f1 in db.UsersRelations
+                                  join f2 in db.Users on f1.ToUserId equals f2.Id
+                                  where f1.UserId == id
+                                  select new { friends = f2.Login }).ToListAsync();
             return Json(oFriends);
         }
         /// <summary>
