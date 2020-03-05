@@ -27,7 +27,7 @@ namespace Publico.Controllers {
         [HttpPost, Route("addfriend")]
         public async Task<IActionResult> AddFriend([FromBody] UsersRelations relation) {
             // Если модель корректна, то добавляет данные в БД
-            if (relation.UserId == null && relation.ToUserId == null) {
+            if (relation.UserId == null || relation.ToUserId == null) {
                 return ErrorViewModel.Error();
             }
             UsersRelations fr = new UsersRelations {
@@ -58,19 +58,20 @@ namespace Publico.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpPost, Route("sendmessage")]
-        public async Task<IActionResult> SendMessage() {
-            //Dialogs objMsg = new Dialogs {
-            //    FromMessageUserId = msg.FromMessageUserId,
-            //    MessageBody = msg.MessageBody
-            //};
-            //if (msg.ChatId != null) {
-            //    objMsg.ChatId = msg.ChatId;
-            //}
-            //else {
-            //    objMsg.ChatId = null;
-            //}
-            //await db.Messages.AddAsync(objMsg);
-            //await db.SaveChangesAsync();
+        public async Task<IActionResult> SendMessage([FromBody] Messages msg) {
+            // Если модель не корректна
+            if (msg.ToUserId == null || msg.FromUserId == null || msg.Message == "") {
+                return ErrorViewModel.Error();
+            }
+            var timeNew = DateTime.UtcNow;  // Получает текущее время
+            var objMsg = new Messages { 
+                FromUserId = msg.FromUserId,
+                ToUserId = msg.ToUserId,
+                Message = msg.Message,
+                Time = timeNew
+            };
+            await db.Messages.AddAsync(objMsg);
+            await db.SaveChangesAsync();
             return Ok();
         }
         /// <summary>

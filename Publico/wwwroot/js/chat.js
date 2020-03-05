@@ -31,36 +31,57 @@ var app = new Vue({
         },
         // Отправляет сообщение
         onSendMessage: () => {
-            //let numChat = null;
             const sUrl = "https://localhost:44323/api/odata/data/sendmessage";
-            //let chatId = localStorage.getItem("chat_id");            
+            const sUrlUser = "https://localhost:44323/api/odata/data/getuser?user=" + userName;
             // Получает введенное сообщение
             var sMessage = $("#messageInput").val();
-            let numChat = app.getRandomNumber(1000);
-            // Проверяет, писали ли мы уже пользователю(был ли уже создан ID чата)
-            //if (chatId === null) {
-            //    // Получает случайное число для ID чата
-            //    numChat = app.getRandomNumber(1000);
-            //}
-            let oData = {
-                MessageUserId: localStorage.getItem("user_id"),
-                MessageBody: sMessage,
-                ChatId: numChat.toString()
-            };
+            var toUserId;
             // Очищает поле сразу после отправки
             $("#messageInput").val("");
-            axios.post(sUrl, oData)
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((XMLHttpRequest, textStatus, errorThrown) => {
-                    console.log("request send error", XMLHttpRequest.response.data);
+            let promise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // Проверяет существует ли пользователь
+                    axios.get(sUrlUser)
+                        .then((response) => {
+                            console.log(response.data);
+                            toUserId = response.data.id;
+                            resolve();
+                        })
+                        .catch((XMLHttpRequest) => {
+                            // Если пользователя не существует
+                            if (XMLHttpRequest.response.status === 500) {
+                                console.log("Пользователя не существует.");
+                            }
+                            reject();
+                        });
+                }, 1);
+            });
+            promise
+                .then(() => {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            let oData = {
+                                FromUserId: +localStorage.getItem("user_id"),
+                                ToUserId: +toUserId,
+                                Message: sMessage
+                            };
+                            // Отправляет сообщение
+                            axios.post(sUrl, oData)
+                                .then((response) => {
+                                    console.log(response);
+                                    resolve();
+                                })
+                                .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                                    console.log("request send error", XMLHttpRequest.response.data);
+                                    reject();
+                                });
+                            resolve();
+                        }, 2);
+                    });
+                }).catch(XMLHttpRequest => {
+                    alert(XMLHttpRequest);
                 });
-        },
-        // Создает случайное число, которое будет ID чата
-        getRandomNumber: (max) => {
-            return Math.floor(Math.random() * Math.floor(max));
-        },
+        },        
         // Добавляет друга
         onAddFriend: () => {
             const url = "https://localhost:44323/api/odata/data/addfriend";
