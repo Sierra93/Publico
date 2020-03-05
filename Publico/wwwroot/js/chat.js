@@ -1,21 +1,20 @@
 ﻿"use strict";
 $(function () {
-    app.onInit();
+    //app.onInit();
 });
 var userName = localStorage.getItem("user");
-var elem = document.getElementById("username");
-elem.textContent = userName;
+$("#username").text(userName);
 
 var app = new Vue({
     el: '#app',
     data: {
-        friends: localStorage.getItem("friends").split(","),
+        //friends: localStorage.getItem("friends").split(","),
         nameFriend: localStorage.getItem("indFriend")
     },
     methods: {
         onInit: () => {
             let userId = localStorage.getItem("user_id");
-            let url = "https://localhost:44323/api/odata/data/getfriends?id=" + userId;
+            const url = "https://localhost:44323/api/odata/data/getfriends?id=" + userId;
             let friendArr = [];
             axios.get(url)
                 .then((response) => {
@@ -31,12 +30,12 @@ var app = new Vue({
                 });
         },
         // Отправляет сообщение
-        onSendMessage: () => {     
+        onSendMessage: () => {
             //let numChat = null;
-            let sUrl = "https://localhost:44323/api/odata/data/sendmessage";
+            const sUrl = "https://localhost:44323/api/odata/data/sendmessage";
             //let chatId = localStorage.getItem("chat_id");            
             // Получает введенное сообщение
-            var sMessage = document.getElementById("messageInput").value;
+            var sMessage = $("#messageInput").val();
             let numChat = app.getRandomNumber(1000);
             // Проверяет, писали ли мы уже пользователю(был ли уже создан ID чата)
             //if (chatId === null) {
@@ -47,9 +46,9 @@ var app = new Vue({
                 MessageUserId: localStorage.getItem("user_id"),
                 MessageBody: sMessage,
                 ChatId: numChat.toString()
-            };  
+            };
             // Очищает поле сразу после отправки
-            document.getElementById("messageInput").value = "";                      
+            $("#messageInput").val("");
             axios.post(sUrl, oData)
                 .then((response) => {
                     console.log(response);
@@ -64,17 +63,52 @@ var app = new Vue({
         },
         // Добавляет друга
         onAddFriend: () => {
-            let url = "https://localhost:44323/api/odata/data/addfriend";
-            let oData = {
-                UserId: localStorage.getItem("user_id").toString(),
-                FriendLogin: document.getElementById("add-friend").value,
-                Status: 0
-            };
-            axios.post(url, oData)
+            const url = "https://localhost:44323/api/odata/data/addfriend";
+            let user = $("#add-friend").val();
+            const sUrlUser = "https://localhost:44323/api/odata/data/getuser?user=" + user;
+            var toUserId;
+            // Через call-back's сначала проверяет существует ли пользователь, затем уже добавляет его в друзья
+            let promise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // Проверяет существует ли пользователь
+                    axios.get(sUrlUser)
+                        .then((response) => {
+                            console.log(response.data);
+                            toUserId = response.data.id;
+                            resolve();
+                        })
+                        .catch((XMLHttpRequest) => {
+                            // Если пользователя не существует
+                            if (XMLHttpRequest.response.status === 500) {
+                                console.log("Пользователя не существует. Добавление в друзья невозможно.");
+                            }
+                            reject();
+                        });
+                }, 1);
+            });
+            promise
                 .then(() => {
-                })
-                .catch((XMLHttpRequest, textStatus, errorThrown) => {
-                    console.log("request send error", XMLHttpRequest.response.data);
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            let oData = {
+                                UserId: +localStorage.getItem("user_id"),
+                                ToUserId: +toUserId,
+                                Type: "1"
+                            };
+                            // Добавляет пользователя в друзья
+                            axios.post(url, oData)
+                                .then(() => {
+                                    resolve();
+                                })
+                                .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                                    console.log("request send error", XMLHttpRequest.response.data);
+                                    reject();
+                                });
+                            resolve();
+                        }, 2);
+                    });
+                }).catch(XMLHttpRequest => {
+                    alert(XMLHttpRequest);
                 });
         },
         // Передает имя друга, которому хотим написать

@@ -22,24 +22,23 @@ namespace Publico.Controllers {
         /// <summary>
         /// Метод добавляет друга
         /// </summary>
-        /// <param name="modelm"></param>
+        /// <param name="relation"></param>
         /// <returns></returns>
         [HttpPost, Route("addfriend")]
-        public async Task<IActionResult> AddFriend() {
+        public async Task<IActionResult> AddFriend([FromBody] UsersRelations relation) {
             // Если модель корректна, то добавляет данные в БД
-            //if (modelf.UserId != null && modelf.FriendLogin != null) {
-            //    // Получение полей из модели 
-            //    //Friends fr1 = new Friends {
-            //    //    UserId = modelf.UserId,
-            //    //    FriendLogin = modelf.FriendLogin
-            //    //};
-            //    // Добавляет в БД
-            //    //await db.Friends.AddRangeAsync(fr1);
-            //    // Сохраняет изменения
-            //    await db.SaveChangesAsync();
-            //    return Ok();
-            //}
-            return ErrorViewModel.Error();
+            if (relation.UserId == null && relation.ToUserId == null) {
+                return ErrorViewModel.Error();
+            }
+            UsersRelations fr = new UsersRelations {
+                UserId = relation.UserId,
+                ToUserId = relation.ToUserId,
+                Type = relation.Type
+            };
+            // Добавляет в БД
+            await db.UsersRelations.AddRangeAsync(fr);
+            await db.SaveChangesAsync();
+            return Ok();
         }
         /// <summary>
         /// Метод получает список друзей пользователя
@@ -71,6 +70,35 @@ namespace Publico.Controllers {
             //await db.Messages.AddAsync(objMsg);
             //await db.SaveChangesAsync();
             return Ok();
+        }
+        /// <summary>
+        /// Проверяет, есть ли пользователь в БД
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpGet, Route("getuser")]
+        public async Task<IActionResult> GetUser([FromQuery] string user) {
+            if (user == null || user == "") {
+                return ErrorViewModel.IsEmptyUser();
+            }
+            var checkUser = await GetIdentityUser(user);
+            if (checkUser == null) {
+                return ErrorViewModel.NotFoundUser();
+            }
+            var resultCheck = new { 
+                id = checkUser.Id,
+                foundUser = checkUser.Login
+            };
+            return Json(resultCheck);
+        }
+        /// <summary>
+        /// Ищет пользователя в БД
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<User> GetIdentityUser(string user) {
+            var sUser = await db.Users.FirstOrDefaultAsync(u => u.Login == user);
+            return sUser;
         }
     }
 }

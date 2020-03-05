@@ -4,7 +4,13 @@ using System;
 namespace Publico.Models {
     // Класс с методами для обработки ошибок
     public class ErrorViewModel {
+        // Если модель пришла не корректная
         public static IActionResult Error() { throw new Exception("Проблемы с моделью."); }
+        // Если у пользователя нет токена
         public static IActionResult ErrorToken() { throw new Exception("Пользователь не верифицирован. В доступе к токену отказано."); }
+        // Если пользователя нет в БД
+        public static IActionResult NotFoundUser() { throw new Exception("Пользователя не существует."); }
+        // Если искомый пользователь не пришел с фронта
+        public static IActionResult IsEmptyUser() { throw new Exception("Искомый пользователь не заполнен."); }
     }
 }

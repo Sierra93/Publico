@@ -12,6 +12,7 @@ using Publico.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Publico.Models;
 
 namespace Publico {
     public class Startup {
@@ -30,6 +31,9 @@ namespace Publico {
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddControllers()
+        .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Converters.Add(new IntToStringConverter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

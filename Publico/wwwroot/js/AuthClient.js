@@ -5,10 +5,10 @@ var app = new Vue({
 		// Регистрирует пользователя
 		onRegister: () => {
 			// Получение данных с форм ввода
-			var login = document.getElementById("exampleInputLogin").value;
-			var email = document.getElementById("exampleInputEmail").value;
-			var password = document.getElementById("exampleInputPassword").value;
-			var url = "https://localhost:44323/api/odata/auth/create";
+			var login = $("exampleInputLogin").val();
+			var email = $("exampleInputEmail").val();
+			var password = $("exampleInputPassword").val();
+			const url = "https://localhost:44323/api/odata/auth/create";
 			// Объект с данными для бэка
 			var User = {
 				Login: login,
@@ -27,9 +27,9 @@ var app = new Vue({
 		// Проверяет существование пользователя в БД
 		onSignIn: () => {
 			// Получение данных с форм ввода
-			var login = document.getElementById("exampleInputLogin").value;
-			var password = document.getElementById("exampleInputPassword").value;
-			var url = "https://localhost:44323/api/odata/auth/signin";
+			var login = $("exampleInputLogin").val();
+			var password = $("exampleInputPassword").val();
+			const url = "https://localhost:44323/api/odata/auth/signin";
 			// Объект с данными для бэка
 			var UserReg = {
 				Login: login,

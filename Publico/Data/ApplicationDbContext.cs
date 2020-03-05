@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Publico.Models; 
+using Publico.Models;
 
 namespace Publico.Data {
     public class ApplicationDbContext : DbContext {
         public DbSet<User> Users { get; set; }
         public DbSet<Info> Info { get; set; }
         public DbSet<Messages> Messages { get; set; }
-        public DbSet<MessagesTranslate> MessageTranslate { get; set; } 
-        public DbSet<UsersRelations> UsersRelations { get; set; } 
+        public DbSet<MessagesTranslate> MessageTranslate { get; set; }
+        public DbSet<UsersRelations> UsersRelations { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {
             Database.EnsureCreated();
