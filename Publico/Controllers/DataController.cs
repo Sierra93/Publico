@@ -45,11 +45,15 @@ namespace Publico.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet, Route("getfriends")]
-        public async Task<IActionResult> GetFriendsList(string id) {
+        public async Task<IActionResult> GetFriendsList([FromQuery] string id) {
             // Выборка списка друзей
-            //var friends = await db.Friends.Where(f => f.UserId == id).ToListAsync();
-            //return Json(friends);
-            return null;
+            var oFriends = await db.UsersRelations.Join(db.Users,
+                f1 => f1.UserId,
+                f2 => f2.Id,
+                (f1, f2) => new {
+                    friends = f2.Login
+                }).ToListAsync();
+            return Json(oFriends);
         }
         /// <summary>
         /// Метод записывает сообщение в таблицу сообщений
@@ -85,7 +89,7 @@ namespace Publico.Controllers {
             if (checkUser == null) {
                 return ErrorViewModel.NotFoundUser();
             }
-            var resultCheck = new { 
+            var resultCheck = new {
                 id = checkUser.Id,
                 foundUser = checkUser.Login
             };

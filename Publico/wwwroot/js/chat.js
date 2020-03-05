@@ -1,6 +1,6 @@
 ﻿"use strict";
 $(function () {
-    //app.onInit();
+    app.onInit();
 });
 var userName = localStorage.getItem("user");
 $("#username").text(userName);
@@ -8,19 +8,19 @@ $("#username").text(userName);
 var app = new Vue({
     el: '#app',
     data: {
-        //friends: localStorage.getItem("friends").split(","),
+        friends: localStorage.getItem("friends").split(","),
         nameFriend: localStorage.getItem("indFriend")
     },
     methods: {
         onInit: () => {
             let userId = localStorage.getItem("user_id");
-            const url = "https://localhost:44323/api/odata/data/getfriends?id=" + userId;
+            const url = "https://localhost:44323/api/odata/data/getfriends?id=" + +userId;
             let friendArr = [];
             axios.get(url)
                 .then((response) => {
                     // Перебор результирующего массива и добавления имен друзей в отдельный массив
                     response.data.forEach(function (el) {
-                        friendArr.push(el.friendLogin);
+                        friendArr.push(el.friends);
                     });
                     // Записывает список друзей в кэш
                     localStorage.setItem("friends", friendArr);
