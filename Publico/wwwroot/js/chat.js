@@ -31,8 +31,9 @@ var app = new Vue({
         },
         // Отправляет сообщение
         onSendMessage: () => {
+            let toUserName = localStorage.getItem("indFriend");
             const sUrl = "https://localhost:44323/api/odata/data/sendmessage";
-            const sUrlUser = "https://localhost:44323/api/odata/data/getuser?user=" + userName;
+            const sUrlUser = "https://localhost:44323/api/odata/data/getuser?user=" + toUserName;
             // Получает введенное сообщение
             var sMessage = $("#messageInput").val();
             var toUserId;
@@ -81,7 +82,7 @@ var app = new Vue({
                 }).catch(XMLHttpRequest => {
                     alert(XMLHttpRequest);
                 });
-        },        
+        },
         // Добавляет друга
         onAddFriend: () => {
             const url = "https://localhost:44323/api/odata/data/addfriend";
@@ -129,18 +130,87 @@ var app = new Vue({
                         }, 2);
                     });
                 }).catch(XMLHttpRequest => {
-                    alert(XMLHttpRequest);
+                    console.log(XMLHttpRequest);
                 });
         },
         // Передает имя друга, которому хотим написать
         onSelectFriend: () => {
+            event.preventDefault();
+            //let encodedMsg;
+            //let li;
+            let messages = localStorage.getItem("messages").split(",");
+            //let msg = messages.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            messages.forEach((el) => {
+                let encodedMsg = userName + ": " + el;
+                let li = document.createElement("li");
+                li.textContent = encodedMsg;
+                document.getElementById("messagesList").appendChild(li);
+            });
             // Получает имя друга, которому пишем
             let indFriend = event.target.parentElement.childNodes[0].data;
             localStorage.setItem("indFriend", indFriend);
-        }
+            app.onGetMessages();
+        },
         // Получает все сообщения выбранного чата
-        //onGetMessages: () => {
-
-        //}
+        onGetMessages: () => {
+            event.preventDefault();
+            let userIdTo;
+            let arrMessages = [];
+            let userNameTo = localStorage.getItem("indFriend");
+            let userIdFrom = +localStorage.getItem("user_id");
+            const sUrl = "https://localhost:44323/api/odata/data/getmessages";
+            //const sUrlCheckUser = "https://localhost:44323/api/odata/data/getuser?user=" + userNameTo;
+            let urlUser = "https://localhost:44323/api/odata/data/getuserpost";
+            let promise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    let oLayout = {
+                        UserIdFrom: userIdFrom,
+                        UserNameTo: userNameTo
+                    };
+                    // Проверяет существует ли пользователь
+                    axios.post(urlUser, oLayout)
+                        .then((response) => {
+                            console.log(response.data);
+                            userIdTo = +response.data.id;
+                            resolve();
+                        })
+                        .catch((XMLHttpRequest) => {
+                            // Если пользователя не существует
+                            if (XMLHttpRequest.response.status === 500) {
+                                console.log("Пользователя не существует.");
+                            }
+                            reject();
+                        });
+                }, 1);
+            });
+            promise
+                .then(() => {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            let oData = {
+                                FromUserId: userIdFrom,
+                                ToUserId: userIdTo
+                            };
+                            // Получает список сообщений пользователя с которым идет общение в данный момент
+                            axios.post(sUrl, oData)
+                                .then((response) => {
+                                    response.data.forEach((el) => {
+                                        arrMessages.push(el.messages);
+                                    });
+                                    localStorage.setItem("messages", arrMessages);
+                                    console.log(response);
+                                    resolve();
+                                })
+                                .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                                    console.log("request send error", XMLHttpRequest.response.data);
+                                    reject();
+                                });
+                            resolve();
+                        }, 2);
+                    });
+                }).catch(XMLHttpRequest => {
+                    console.log(XMLHttpRequest);
+                });
+        }
     }
 });
