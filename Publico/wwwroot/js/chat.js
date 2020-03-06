@@ -135,11 +135,8 @@ var app = new Vue({
         },
         // Передает имя друга, которому хотим написать
         onSelectFriend: () => {
+            // Очищает чат при каждом открытии нового чата
             $("#messagesList").html("");
-            //event.preventDefault();            
-            //let encodedMsg;
-            //let li;
-            //let messages = localStorage.getItem("messages").split(",");
             let messages = JSON.parse(localStorage.getItem("messages"));
             //let msg = messages.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             messages.forEach((el) => {
@@ -157,20 +154,19 @@ var app = new Vue({
         onGetMessages: () => {
             event.preventDefault();
             let userIdTo;
-            let arrMessages = [{}];
+            let arrMessages = [];
             let userNameTo = localStorage.getItem("indFriend");
             let userIdFrom = +localStorage.getItem("user_id");
             const sUrl = "https://localhost:44323/api/odata/data/getmessages";
-            //const sUrlCheckUser = "https://localhost:44323/api/odata/data/getuser?user=" + userNameTo;
             let urlUser = "https://localhost:44323/api/odata/data/getuserpost";
             let promise = new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    let oLayout = {
+                    let oData = {
                         UserIdFrom: userIdFrom,
                         UserNameTo: userNameTo
                     };
                     // Проверяет существует ли пользователь
-                    axios.post(urlUser, oLayout)
+                    axios.post(urlUser, oData)
                         .then((response) => {
                             console.log(response.data);
                             userIdTo = +response.data.id;
