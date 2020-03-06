@@ -135,13 +135,15 @@ var app = new Vue({
         },
         // Передает имя друга, которому хотим написать
         onSelectFriend: () => {
-            event.preventDefault();
+            $("#messagesList").html("");
+            //event.preventDefault();            
             //let encodedMsg;
             //let li;
-            let messages = localStorage.getItem("messages").split(",");
+            //let messages = localStorage.getItem("messages").split(",");
+            let messages = JSON.parse(localStorage.getItem("messages"));
             //let msg = messages.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
             messages.forEach((el) => {
-                let encodedMsg = userName + ": " + el;
+                let encodedMsg = el.login + ": " + el.messages;
                 let li = document.createElement("li");
                 li.textContent = encodedMsg;
                 document.getElementById("messagesList").appendChild(li);
@@ -155,7 +157,7 @@ var app = new Vue({
         onGetMessages: () => {
             event.preventDefault();
             let userIdTo;
-            let arrMessages = [];
+            let arrMessages = [{}];
             let userNameTo = localStorage.getItem("indFriend");
             let userIdFrom = +localStorage.getItem("user_id");
             const sUrl = "https://localhost:44323/api/odata/data/getmessages";
@@ -195,9 +197,9 @@ var app = new Vue({
                             axios.post(sUrl, oData)
                                 .then((response) => {
                                     response.data.forEach((el) => {
-                                        arrMessages.push(el.messages);
+                                        arrMessages.push(el);
                                     });
-                                    localStorage.setItem("messages", arrMessages);
+                                    localStorage.setItem("messages", JSON.stringify(arrMessages));
                                     console.log(response);
                                     resolve();
                                 })
