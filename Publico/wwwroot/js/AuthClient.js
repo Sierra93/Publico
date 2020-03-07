@@ -4,7 +4,9 @@ var app = new Vue({
 	methods: {
 		// Регистрирует пользователя
 		onRegister: () => {
-			app.onCheckEmail();
+			app.onValidEmail();
+			app.onValidLogin();
+			app.onValidPassword();
 			// Получение данных с форм ввода
 			var login = $("#exampleInputLogin").val();
 			var email = $("#exampleInputEmail").val();
@@ -54,13 +56,29 @@ var app = new Vue({
 				});
 		},
 		// Валидация почты
-		onCheckEmail: () => {
+		onValidEmail: () => {
 			let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;			
 			let checkField = $("#exampleInputEmail").val();
 			if (reg.test(checkField) === false) {
 				$("#idValidationEmail").html("Введите корректный email");
 				$("#idValidationEmail").addClass("validation-email");
 				return false;
+			}
+		},
+		// Валидация логина
+		onValidLogin: () => {
+			let fieldLogin = $("#exampleInputLogin").val();
+			if (fieldLogin === "") {
+				$("#idValidationLogin").html("Поле логина не может быть пустым");
+				$("#idValidationLogin").addClass("validation-login");
+			}
+		},
+		// Валидация пароля
+		onValidPassword: () => {
+			let fieldPassword = $("#exampleInputPassword").val();
+			if (fieldPassword === "") {
+				$("#idValidationPassword").html("Поле пароля не может быть пустым");
+				$("#idValidationPassword").addClass("validation-password");
 			}
 		}
 	}
