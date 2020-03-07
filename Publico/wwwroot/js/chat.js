@@ -19,7 +19,7 @@ var app = new Vue({
             axios.get(url)
                 .then((response) => {
                     // Перебор результирующего массива и добавления имен друзей в отдельный массив
-                    response.data.forEach(function (el) {
+                    response.data.forEach((el) => {
                         friendArr.push(el.friends);
                     });
                     // Записывает список друзей в кэш
@@ -35,7 +35,7 @@ var app = new Vue({
             const sUrl = "https://localhost:44323/api/odata/data/sendmessage";
             const sUrlUser = "https://localhost:44323/api/odata/data/getuser?user=" + toUserName;
             // Получает введенное сообщение
-            var sMessage = $("#messageInput").val();
+            let sMessage = $("#messageInput").val();
             var toUserId;
             // Очищает поле сразу после отправки
             $("#messageInput").val("");
@@ -57,8 +57,7 @@ var app = new Vue({
                         });
                 }, 1);
             });
-            promise
-                .then(() => {
+            promise.then(() => {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             let oData = {
@@ -108,8 +107,7 @@ var app = new Vue({
                         });
                 }, 1);
             });
-            promise
-                .then(() => {
+            promise.then(() => {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             let oData = {
@@ -134,26 +132,19 @@ var app = new Vue({
                 });
         },
         // Передает имя друга, которому хотим написать
-        onSelectFriend: () => {
+        onSelectFriend: () => {          
             // Очищает чат при каждом открытии нового чата
             $("#messagesList").html("");
-            let messages = JSON.parse(localStorage.getItem("messages"));
-            //let msg = messages.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            messages.forEach((el) => {
-                let encodedMsg = el.login + ": " + el.messages;
-                let li = document.createElement("li");
-                li.textContent = encodedMsg;
-                document.getElementById("messagesList").appendChild(li);
-            });
+            
             // Получает имя друга, которому пишем
             let indFriend = event.target.parentElement.childNodes[0].data;
             localStorage.setItem("indFriend", indFriend);
             app.onGetMessages();
         },
         // Получает все сообщения выбранного чата
-        onGetMessages: () => {
-            event.preventDefault();
-            let userIdTo;
+        onGetMessages: () => {          
+            //event.preventDefault();                         
+            let userIdTo;       
             let arrMessages = [];
             let userNameTo = localStorage.getItem("indFriend");
             let userIdFrom = +localStorage.getItem("user_id");
@@ -168,7 +159,7 @@ var app = new Vue({
                     // Проверяет существует ли пользователь
                     axios.post(urlUser, oData)
                         .then((response) => {
-                            console.log(response.data);
+                            console.log(response);
                             userIdTo = +response.data.id;
                             resolve();
                         })
@@ -181,34 +172,44 @@ var app = new Vue({
                         });
                 }, 1);
             });
-            promise
-                .then(() => {
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            let oData = {
-                                FromUserId: userIdFrom,
-                                ToUserId: userIdTo
-                            };
-                            // Получает список сообщений пользователя с которым идет общение в данный момент
-                            axios.post(sUrl, oData)
-                                .then((response) => {
-                                    response.data.forEach((el) => {
-                                        arrMessages.push(el);
-                                    });
-                                    localStorage.setItem("messages", JSON.stringify(arrMessages));
-                                    console.log(response);
-                                    resolve();
-                                })
-                                .catch((XMLHttpRequest, textStatus, errorThrown) => {
-                                    console.log("request send error", XMLHttpRequest.response.data);
-                                    reject();
+            promise.then(() => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        let oData = {
+                            FromUserId: userIdFrom,
+                            ToUserId: userIdTo
+                        };                        
+                        // Получает список сообщений пользователя с которым идет общение в данный момент
+                        axios.post(sUrl, oData)
+                            .then((response) => {
+                                console.log(response);
+                                response.data.forEach((el) => {
+                                    arrMessages.push(el);
                                 });
-                            resolve();
-                        }, 2);
-                    });
-                }).catch(XMLHttpRequest => {
-                    console.log(XMLHttpRequest);
+                                localStorage.setItem("messages", JSON.stringify(arrMessages));
+                                let friendName = localStorage.getItem("indFriend");
+                                // Выводит имя друга, которому собираемся писать
+                                $("#idFriendName").html(friendName);
+                                let messages = JSON.parse(localStorage.getItem("messages"));
+                                messages.forEach((el) => {
+                                    let encodedMsg = el.login + ": " + el.messages;
+                                    let li = document.createElement("li");
+                                    li.textContent = encodedMsg;
+                                    document.getElementById("messagesList").appendChild(li);
+                                });
+                                resolve();                                           
+                            })
+                            .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                                console.log("request send error", XMLHttpRequest.response.data);
+                                reject();                       
+                            });     
+                        resolve();
+                    }, 2);
                 });
+            }).catch(XMLHttpRequest => {
+                console.log(XMLHttpRequest);
+            });
+            event.preventDefault();
         }
     }
 });
