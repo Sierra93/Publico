@@ -10,6 +10,8 @@ body {
 }
 .mixin-validation {
     color: red;
+    display: flex;
+    justify-content: center;
 }
 * {
     margin: 0;
@@ -114,5 +116,9 @@ body {
 }
 // Для сравнения валидации паролей
 .validation-fields-password {
+    .mixin-validation();
+}
+// Для проверки при авторизации
+.check-authorization {
     .mixin-validation();
 }

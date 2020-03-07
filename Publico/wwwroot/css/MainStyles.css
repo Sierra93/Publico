@@ -9,6 +9,8 @@
 }
 .mixin-validation {
   color: red;
+  display: flex;
+  justify-content: center;
 }
 * {
   margin: 0;
@@ -94,13 +96,26 @@
 }
 .validation-email {
   color: red;
+  display: flex;
+  justify-content: center;
 }
 .validation-login {
   color: red;
+  display: flex;
+  justify-content: center;
 }
 .validation-password {
   color: red;
+  display: flex;
+  justify-content: center;
 }
 .validation-fields-password {
   color: red;
+  display: flex;
+  justify-content: center;
+}
+.check-authorization {
+  color: red;
+  display: flex;
+  justify-content: center;
 }

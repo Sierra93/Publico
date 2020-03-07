@@ -53,6 +53,8 @@ var app = new Vue({
 					}
 				})
 				.catch((XMLHttpRequest, textStatus, errorThrown) => {
+					$("#idCheckAuthorization").addClass("check-authorization");
+					$("#idCheckAuthorization").html("Логин или пароль введены не верно");
 					console.log("request send error", XMLHttpRequest.response.data);
 				});
 		},
