@@ -7,6 +7,7 @@ var app = new Vue({
 			app.onValidEmail();
 			app.onValidLogin();
 			app.onValidPassword();
+			app.onCheckPasswordFields();
 			// Получение данных с форм ввода
 			var login = $("#exampleInputLogin").val();
 			var email = $("#exampleInputEmail").val();
@@ -62,7 +63,7 @@ var app = new Vue({
 			if (reg.test(checkField) === false) {
 				$("#idValidationEmail").html("Введите корректный email");
 				$("#idValidationEmail").addClass("validation-email");
-				return false;
+				throw new Error("Введите корректный email");
 			}
 		},
 		// Валидация логина
@@ -71,6 +72,7 @@ var app = new Vue({
 			if (fieldLogin === "") {
 				$("#idValidationLogin").html("Поле логина не может быть пустым");
 				$("#idValidationLogin").addClass("validation-login");
+				throw new Error("Поле логина не может быть пустым");
 			}
 		},
 		// Валидация пароля
@@ -79,6 +81,17 @@ var app = new Vue({
 			if (fieldPassword === "") {
 				$("#idValidationPassword").html("Поле пароля не может быть пустым");
 				$("#idValidationPassword").addClass("validation-password");
+				throw new Error("Поле пароля не может быть пустым");
+			}
+		},
+		// Проверка на совпадение паролей
+		onCheckPasswordFields: () => {
+			let sPasswordFirstField = $("#exampleInputPassword").val();
+			let sPasswordSecondField = $("#exampleRepeatInputPassword").val();
+			if (sPasswordFirstField !== sPasswordSecondField) {
+				$("#idValidationPassword").html("Пароли не совпадают");
+				$("#idValidationPassword").addClass("validation-fields-password");
+				throw new Error("Пароли не совпадают");
 			}
 		}
 	}
