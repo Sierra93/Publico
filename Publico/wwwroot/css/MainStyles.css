@@ -7,6 +7,9 @@
   justify-content: center;
   flex-direction: column;
 }
+.mixin-validation {
+  color: red;
+}
 * {
   margin: 0;
   padding: 0;
@@ -88,4 +91,13 @@
 }
 .friends .hidden {
   display: none;
+}
+.validation-email {
+  color: red;
+}
+.validation-login {
+  color: red;
+}
+.validation-password {
+  color: red;
 }

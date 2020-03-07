@@ -4,6 +4,7 @@ var app = new Vue({
 	methods: {
 		// Регистрирует пользователя
 		onRegister: () => {
+			app.onCheckEmail();
 			// Получение данных с форм ввода
 			var login = $("#exampleInputLogin").val();
 			var email = $("#exampleInputEmail").val();
@@ -19,6 +20,7 @@ var app = new Vue({
 			axios.post(url, User)
 				.then((response) => {
 					console.log(response);
+					window.location.href = "https://localhost:44323/Home/GoToLogin";
 				})
 				.catch((XMLHttpRequest, textStatus, errorThrown) => {
 					console.log("request send error", XMLHttpRequest.response.data);
@@ -46,14 +48,20 @@ var app = new Vue({
 					if (name !== "" && name !== undefined) { 
 						window.location.href = "https://localhost:44323/Home/GoToChat";
 					}
-					// Иначе выбросит на главную
-					else {
-						window.location.href = "https://localhost:44323/";
-					}
 				})
 				.catch((XMLHttpRequest, textStatus, errorThrown) => {
 					console.log("request send error", XMLHttpRequest.response.data);
 				});
+		},
+		// Валидация почты
+		onCheckEmail: () => {
+			let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;			
+			let checkField = $("#exampleInputEmail").val();
+			if (reg.test(checkField) === false) {
+				$("#idValidationEmail").html("Введите корректный email");
+				$("#idValidationEmail").addClass("validation-email");
+				return false;
+			}
 		}
 	}
 });

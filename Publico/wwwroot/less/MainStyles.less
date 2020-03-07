@@ -8,7 +8,10 @@ body {
     justify-content: center;
     flex-direction: column;
 }
-*{
+.mixin-validation {
+    color: red;
+}
+* {
     margin: 0;
     padding: 0;
 }
@@ -96,4 +99,16 @@ body {
     .hidden {
         display: none;
     }
+}
+// Для валидации почты
+.validation-email {
+    .mixin-validation();
+}
+// Для валидации логина
+.validation-login {
+    .mixin-validation();
+}
+// Для валидации пароля
+.validation-password {
+    .mixin-validation();
 }

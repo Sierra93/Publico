@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Publico.Controllers {
+    // В этом контроллере описываются все главные роуты приложения
     public class HomeController : Controller {
         public IActionResult Index() { return View(); }
         // Перейти к чату
