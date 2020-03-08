@@ -8,6 +8,7 @@ var app = new Vue({
 			app.onValidLogin();
 			app.onValidPassword();
 			app.onCheckPasswordFields();
+			$(".btn-register").prop('disabled', true);
 			// Получение данных с форм ввода
 			var login = $("#exampleInputLogin").val();
 			var email = $("#exampleInputEmail").val();
@@ -26,10 +27,12 @@ var app = new Vue({
 					// Проверяет существует ли уже такой логин
 					axios.get(sUrlLogin)
 						.then((response) => {
+							$(".btn-register").prop('disabled', false);
 							console.log(response);
 							resolve();
 						})
 						.catch((XMLHttpRequest) => {
+							$(".btn-register").prop('disabled', false);
 							console.log("request send error", XMLHttpRequest.response.data);
 							reject();
 						});
@@ -71,6 +74,7 @@ var app = new Vue({
 		},
 		// Проверяет существование пользователя в БД
 		onSignIn: () => {
+			$(".btn-login").prop('disabled', true);
 			// Получение данных с форм ввода
 			var login = $("#exampleInputLogin").val();
 			var password = $("#exampleInputPassword").val();
@@ -83,6 +87,7 @@ var app = new Vue({
 			// Отправляет данные на бэк
 			axios.post(url, UserReg)
 				.then((response) => {
+					$(".btn-login").prop('disabled', false);
 					console.log(response);
 					localStorage.setItem("user", response.data.userName);
 					localStorage.setItem("user_id", response.data.id);
@@ -93,6 +98,7 @@ var app = new Vue({
 					}
 				})
 				.catch((XMLHttpRequest, textStatus, errorThrown) => {
+					$(".btn-login").prop('disabled', false);
 					$("#idCheckAuthorization").addClass("check-authorization");
 					$("#idCheckAuthorization").html("Логин или пароль введены не верно");
 					console.log("request send error", XMLHttpRequest.response.data);
