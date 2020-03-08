@@ -69,7 +69,7 @@ var app = new Vue({
                             axios.post(sUrl, oData)
                                 .then((response) => {
                                     console.log(response);
-                                    resolve();
+                                    resolve();                                    
                                 })
                                 .catch((XMLHttpRequest, textStatus, errorThrown) => {
                                     console.log("request send error", XMLHttpRequest.response.data);
@@ -141,8 +141,7 @@ var app = new Vue({
             app.onGetMessages();
         },
         // Получает все сообщения выбранного чата
-        onGetMessages: () => {          
-            //event.preventDefault();                         
+        onGetMessages: () => {                              
             let userIdTo;       
             let arrMessages = [];
             let userNameTo = localStorage.getItem("indFriend");
@@ -227,6 +226,12 @@ var app = new Vue({
                     console.log("request send error", XMLHttpRequest.response.data);
                     reject();
                 });
+        },
+        // Выходит из учетной записи
+        onOut: () => {
+            event.preventDefault();
+            localStorage.removeItem("token");
+            window.location.href = "https://localhost:44323/Home/GoToLogin";
         }
     }
 });
