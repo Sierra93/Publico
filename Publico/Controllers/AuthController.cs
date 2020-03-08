@@ -99,6 +99,18 @@ namespace Publico.Controllers {
             var isLogin = await db.Users.FirstOrDefaultAsync(l => l.Login == login);
             if (isLogin != null) { ErrorViewModel.LoginNotEmpty(); }
             return Ok("Логин свободен.");
-        } 
+        }
+        /// <summary>
+        /// Метод проверяет есть ли в БД такая почта
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpGet, Route("checkemail")]
+        public async Task<IActionResult> GetEmail([FromQuery] string email) {
+            if (email == "") { ErrorViewModel.IsEmptyEmail(); }
+            var isEmail = await db.Users.FirstOrDefaultAsync(e => e.Email == email);
+            if (isEmail != null) { ErrorViewModel.EmailNotEmpty(); }
+            return Ok("email свободен.");
+        }
     }
 }

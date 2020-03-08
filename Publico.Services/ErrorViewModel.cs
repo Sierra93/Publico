@@ -14,7 +14,9 @@ namespace Publico.Models {
         public static IActionResult IsEmptyUser() { throw new Exception("Искомый пользователь не заполнен."); }
         // Если искомая почта не заполнена
         public static IActionResult IsEmptyEmail() { throw new Exception("Искомая почта не заполнена."); }
+        // Если логин уже существует
         public static IActionResult LoginNotEmpty() { throw new Exception("Указанный логин уже существует."); }
+        // Если почта уже существует
         public static IActionResult EmailNotEmpty() { throw new Exception("Указанный email уже существует."); }
     }
 }

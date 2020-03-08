@@ -30,6 +30,7 @@ var app = new Vue({
 							resolve();
 						})
 						.catch((XMLHttpRequest) => {
+							console.log("request send error", XMLHttpRequest.response.data);
 							reject();
 						});
 				}, 1);
@@ -49,18 +50,24 @@ var app = new Vue({
 							});
 					}, 2);
 				});
+			});
+			promise.then(() => {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
+						// Отправляет данные на бэк
+						axios.post(url, User)
+							.then((response) => {
+								console.log(response);
+								window.location.href = "https://localhost:44323/Home/GoToLogin";
+							})
+							.catch((XMLHttpRequest) => {
+								console.log("request send error", XMLHttpRequest.response.data);
+							});
+					}, 3);
+				});
 			}).catch(XMLHttpRequest => {
 				console.log(XMLHttpRequest);
-			});
-			// Отправляет данные на бэк
-			//axios.post(url, User)
-			//	.then((response) => {
-			//		console.log(response);
-			//		window.location.href = "https://localhost:44323/Home/GoToLogin";
-			//	})
-			//	.catch((XMLHttpRequest, textStatus, errorThrown) => {
-			//		console.log("request send error", XMLHttpRequest.response.data);
-			//	});
+			});			
 		},
 		// Проверяет существование пользователя в БД
 		onSignIn: () => {
