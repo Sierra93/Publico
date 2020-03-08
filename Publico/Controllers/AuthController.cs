@@ -88,5 +88,17 @@ namespace Publico.Controllers {
             }
             return null;
         }
+        /// <summary>
+        /// Метод проверяет есть ли в БД такой логин
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        [HttpGet, Route("checklogin")]
+        public async Task<IActionResult> GetLogin([FromQuery] string login) {
+            if (login == "") { ErrorViewModel.IsEmptyUser(); }                            
+            var isLogin = await db.Users.FirstOrDefaultAsync(l => l.Login == login);
+            if (isLogin != null) { ErrorViewModel.LoginNotEmpty(); }
+            return Ok("Логин свободен.");
+        } 
     }
 }

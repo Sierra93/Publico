@@ -13,21 +13,54 @@ var app = new Vue({
 			var email = $("#exampleInputEmail").val();
 			var password = $("#exampleInputPassword").val();
 			const url = "https://localhost:44323/api/odata/auth/create";
+			const sUrlLogin = "https://localhost:44323/api/odata/auth/checklogin?login=" + login;
+			const sUrlEmail = "https://localhost:44323/api/odata/auth/checkemail?email=" + email;
 			// Объект с данными для бэка
 			var User = {
 				Login: login,
 				Email: email,
 				Password: password
 			};
-			// Отправляет данные на бэк
-			axios.post(url, User)
-				.then((response) => {
-					console.log(response);
-					window.location.href = "https://localhost:44323/Home/GoToLogin";
-				})
-				.catch((XMLHttpRequest, textStatus, errorThrown) => {
-					console.log("request send error", XMLHttpRequest.response.data);
+			let promise = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					// Проверяет существует ли уже такой логин
+					axios.get(sUrlLogin)
+						.then((response) => {
+							console.log(response);
+							resolve();
+						})
+						.catch((XMLHttpRequest) => {
+							reject();
+						});
+				}, 1);
+			});
+			promise.then(() => {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {
+						// Проверяет существует ли уже такой email
+						axios.get(sUrlEmail)
+							.then((response) => {
+								console.log(response);
+								resolve();
+							})
+							.catch((XMLHttpRequest) => {
+								console.log("request send error", XMLHttpRequest.response.data);
+								reject();
+							});
+					}, 2);
 				});
+			}).catch(XMLHttpRequest => {
+				console.log(XMLHttpRequest);
+			});
+			// Отправляет данные на бэк
+			//axios.post(url, User)
+			//	.then((response) => {
+			//		console.log(response);
+			//		window.location.href = "https://localhost:44323/Home/GoToLogin";
+			//	})
+			//	.catch((XMLHttpRequest, textStatus, errorThrown) => {
+			//		console.log("request send error", XMLHttpRequest.response.data);
+			//	});
 		},
 		// Проверяет существование пользователя в БД
 		onSignIn: () => {
