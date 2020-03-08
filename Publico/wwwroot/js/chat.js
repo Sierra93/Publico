@@ -134,8 +134,7 @@ var app = new Vue({
         // Передает имя друга, которому хотим написать
         onSelectFriend: () => {          
             // Очищает чат при каждом открытии нового чата
-            $("#messagesList").html("");
-            
+            $("#messagesList").html("");            
             // Получает имя друга, которому пишем
             let indFriend = event.target.parentElement.childNodes[0].data;
             localStorage.setItem("indFriend", indFriend);
@@ -210,6 +209,24 @@ var app = new Vue({
                 console.log(XMLHttpRequest);
             });
             event.preventDefault();
+        },
+        // Удаляет друга
+        onDeleteFriend: () => {
+            event.preventDefault();
+            let sNameFriend = event.target.parentElement.childNodes[0].data;
+            let sUrl = "https://localhost:44323/api/odata/data/deletefriend";
+            let oData = {
+                UserFrom: +localStorage.getItem("user_id"),
+                UserTo: sNameFriend
+            };
+            axios.post(sUrl, oData)
+                .then(() => {
+                    resolve();
+                })
+                .catch((XMLHttpRequest) => {
+                    console.log("request send error", XMLHttpRequest.response.data);
+                    reject();
+                });
         }
     }
 });

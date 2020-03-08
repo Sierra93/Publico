@@ -143,5 +143,26 @@ namespace Publico.Controllers {
                                         }).ToListAsync();
             return Json(messagesObject);
         }
+        /// <summary>
+        /// Метод удаляет друга
+        /// </summary>
+        /// <param name="friend"></param>
+        /// <returns></returns>
+        [HttpPost, Route("deletefriend")]
+        public async Task<IActionResult> DeleteFriend([FromBody] UserDelete user) {
+            if (user.UserFrom == null && user.UserTo == null) { ErrorViewModel.IsEmptyUser(); }
+            var objFriend = await db.Users.FirstOrDefaultAsync(n => n.Login == user.UserTo);
+            // Узнает id друга которого нужно удалить
+            int idFriend = objFriend.Id;
+            // Выбирает удаляемого друга
+            UsersRelations deleteUser = await db.UsersRelations.FirstOrDefaultAsync(u => u.ToUserId == idFriend);
+            // Удаляет друга
+            if (deleteUser != null) {
+                db.UsersRelations.Remove(deleteUser);
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            return ErrorViewModel.RemoveError();
+        }
     }
 }

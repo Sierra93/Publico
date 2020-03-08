@@ -42,7 +42,7 @@ namespace Publico.Controllers {
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost, Route("signin")]
-        public IActionResult GetUserFromDb([FromBody] User user) {
+        public IActionResult GetUserFromDb([FromBody] UserSignIn user) {
             User userobj = new User();  // Объект пользователя, из которого возьмем только ID для возврата фронту
             if (user.Login == null || user.Password == null) {
                 return ErrorViewModel.Error(); 

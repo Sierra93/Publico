@@ -18,5 +18,6 @@ namespace Publico.Models {
         public static IActionResult LoginNotEmpty() { throw new Exception("Указанный логин уже существует."); }
         // Если почта уже существует
         public static IActionResult EmailNotEmpty() { throw new Exception("Указанный email уже существует."); }
+        public static IActionResult RemoveError() { throw new Exception("Ошибка удаления."); }
     }
 }
