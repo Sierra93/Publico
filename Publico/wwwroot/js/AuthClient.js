@@ -1,4 +1,9 @@
 ﻿"use strict";
+$(function () {
+	if (localStorage.getItem("token") !== null) {
+		window.location.href = "https://localhost:44323/Home/GoToChat";
+	}
+});
 var app = new Vue({
 	el: '#app',
 	methods: {
@@ -91,13 +96,15 @@ var app = new Vue({
 					console.log(response);
 					localStorage.setItem("user", response.data.userName);
 					localStorage.setItem("user_id", response.data.id);
-					// Проверяет есть ли у пользователя токен
+					localStorage.setItem("token", response.data.access_token);
+					var userToken = localStorage.getItem("token");
+					// Проверяет наличие пользователя и токена
 					var name = localStorage.getItem("user");
-					if (name !== "" && name !== undefined) { 
+					if (name !== "" && name !== undefined && userToken !== null) { 
 						window.location.href = "https://localhost:44323/Home/GoToChat";
 					}
 				})
-				.catch((XMLHttpRequest, textStatus, errorThrown) => {
+				.catch((XMLHttpRequest) => {
 					$(".btn-login").prop('disabled', false);
 					$("#idCheckAuthorization").addClass("check-authorization");
 					$("#idCheckAuthorization").html("Логин или пароль введены не верно");
