@@ -9,4 +9,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Publico.Models\Publico.Models.csproj" />
+  </ItemGroup>
+
 </Project>

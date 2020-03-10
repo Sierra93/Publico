@@ -10,6 +10,9 @@ using Publico.Data;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Publico.Services;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Publico.Controllers {
     // Авторизация и регистрация пользователей
@@ -29,8 +32,10 @@ namespace Publico.Controllers {
             if (user.Login == null || user.Password == null || user.Email == null) {
                 return ErrorViewModel.Error();
             }
+            // Хэширует пароль
+            var hashString = HashMD5.HashPassword(user.Password); 
             // Добавляет нового пользователя
-            User regUser = new User { Login = user.Login, Email = user.Email, Password = user.Password };
+            User regUser = new User { Login = user.Login, Email = user.Email, Password = hashString };
             db.Users.AddRange(regUser);
             // Сохраняет изменения в БД
             await db.SaveChangesAsync();

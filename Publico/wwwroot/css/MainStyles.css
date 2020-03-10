@@ -78,8 +78,10 @@
   text-align: center;
 }
 .friends .item {
-  border-top: 1px solid darkgreen;
-  border-bottom: 1px solid darkgreen;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: right;
 }
 .friends .friend-link {
   text-decoration: none;
@@ -128,5 +130,9 @@
   display: none;
 }
 .show {
+  display: flex;
+}
+.buttons {
+  flex-flow: row-reverse;
   display: flex;
 }

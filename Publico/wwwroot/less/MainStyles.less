@@ -82,8 +82,12 @@ body {
     }
 
     .item {
-        border-top: 1px solid darkgreen;
-        border-bottom: 1px solid darkgreen;
+        //border-top: 1px solid darkgreen;
+        //border-bottom: 1px solid darkgreen;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        float: right;
     }
 
     .friend-link {
@@ -129,5 +133,10 @@ body {
     display: none;
 }
 .show {
+    display: flex;
+}
+// Для кнопок написать/удалить
+.buttons {
+    flex-flow: row-reverse;
     display: flex;
 }

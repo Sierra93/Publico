@@ -13,6 +13,7 @@ var app = new Vue({
 			app.onValidLogin();
 			app.onValidPassword();
 			app.onCheckPasswordFields();
+			// Делает кнопку регистрации не активной пока данные не будут одобрены
 			$(".btn-register").prop('disabled', true);
 			// Получение данных с форм ввода
 			var login = $("#exampleInputLogin").val();

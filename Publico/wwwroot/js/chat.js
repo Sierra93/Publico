@@ -132,11 +132,12 @@ var app = new Vue({
                 });
         },
         // Передает имя друга, которому хотим написать
-        onSelectFriend: () => {          
+        onSelectFriend: (event) => {          
             // Очищает чат при каждом открытии нового чата
             $("#messagesList").html("");            
             // Получает имя друга, которому пишем
-            let indFriend = event.target.parentElement.childNodes[0].data;
+            let indFriend = event.target.parentElement.parentElement.childNodes[0].textContent;
+                //event.target.parentElement.childNodes[0].data;
             localStorage.setItem("indFriend", indFriend);
             app.onGetMessages();
         },
