@@ -33,7 +33,9 @@ namespace Publico.Controllers {
                 return ErrorViewModel.Error();
             }
             // Хэширует пароль
-            var hashString = HashMD5.HashPassword(user.Password); 
+            var hashString = await HashMD5Service.HashPassword(user.Password);
+            // Подтверждение по почте
+            await EmailService.SendToEmail(user);
             // Добавляет нового пользователя
             User regUser = new User { Login = user.Login, Email = user.Email, Password = hashString };
             db.Users.AddRange(regUser);
@@ -50,7 +52,7 @@ namespace Publico.Controllers {
         public IActionResult GetUserFromDb([FromBody] UserSignIn user) {
             User userobj = new User();  // Объект пользователя, из которого возьмем только ID для возврата фронту
             if (user.Login == null || user.Password == null) {
-                return ErrorViewModel.Error(); 
+                return ErrorViewModel.Error();
             }
             // Проверяет, есть ли пользователь в БД
             var identity = GetIdentity(user.Login, user.Password);
@@ -100,7 +102,7 @@ namespace Publico.Controllers {
         /// <returns></returns>
         [HttpGet, Route("checklogin")]
         public async Task<IActionResult> GetLogin([FromQuery] string login) {
-            if (login == "") { ErrorViewModel.IsEmptyUser(); }                            
+            if (login == "") { ErrorViewModel.IsEmptyUser(); }
             var isLogin = await db.Users.FirstOrDefaultAsync(l => l.Login == login);
             if (isLogin != null) { ErrorViewModel.LoginNotEmpty(); }
             return Ok("Логин свободен.");

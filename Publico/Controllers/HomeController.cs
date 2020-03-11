@@ -15,5 +15,7 @@ namespace Publico.Controllers {
         public IActionResult GoToRegister() { return View(); }
         // Переход к методу авторизации
         public IActionResult GoToLogin() { return View(); }
+        // Переход к странице успешного подтверждения почты
+        public IActionResult SuccessEmail() { return View(); }
     }
 }

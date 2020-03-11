@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Publico.Services {
     // Класс хэширует пароль
-    public class HashMD5 {
+    public class HashMD5Service {
         /// <summary>
         /// Метод реализации хэширования
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static string HashPassword(string password) {
-            var getHash = GetHash(password);
+        public static async Task<string> HashPassword(string password) {
+            var getHash = await GetHash(password);
             return getHash;
         }
         /// <summary>
@@ -19,7 +20,7 @@ namespace Publico.Services {
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        static string GetHash(string password) {
+        static async Task <string> GetHash(string password) {
             byte[] hash = Encoding.ASCII.GetBytes(password);
             MD5 md5 = new MD5CryptoServiceProvider();
             byte[] hashenc = md5.ComputeHash(hash);
