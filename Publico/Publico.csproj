@@ -37,7 +37,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Publico.Models\Publico.Models.csproj" />
     <ProjectReference Include="..\Publico.Services\Publico.Services.csproj" />
-    <ProjectReference Include="..\Publico.Tests\Publico.Tests.csproj" />
   </ItemGroup>
 
 </Project>

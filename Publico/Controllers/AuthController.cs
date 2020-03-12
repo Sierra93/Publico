@@ -19,6 +19,7 @@ namespace Publico.Controllers {
     [ApiController, Route("api/odata/auth")]
     public class AuthController : Controller {
         private ApplicationDbContext db;
+        public AuthController() { }
         public AuthController(ApplicationDbContext context) {
             db = context;
         }
@@ -30,7 +31,7 @@ namespace Publico.Controllers {
         [HttpPost, Route("create")]
         public async Task<IActionResult> CreateUser([FromBody] User user) {
             if (user.Login == null || user.Password == null || user.Email == null) {
-                return ErrorViewModel.Error();
+                throw new ArgumentNullException();
             }
             // Хэширует пароль
             var hashString = await HashMD5Service.HashPassword(user.Password);
@@ -52,7 +53,7 @@ namespace Publico.Controllers {
         public IActionResult GetUserFromDb([FromBody] UserSignIn user) {
             User userobj = new User();  // Объект пользователя, из которого возьмем только ID для возврата фронту
             if (user.Login == null || user.Password == null) {
-                return ErrorViewModel.Error();
+                throw new ArgumentNullException();
             }
             // Проверяет, есть ли пользователь в БД
             var identity = GetIdentity(user.Login, user.Password);

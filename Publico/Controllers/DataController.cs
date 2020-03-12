@@ -28,7 +28,7 @@ namespace Publico.Controllers {
         public async Task<IActionResult> AddFriend([FromBody] UsersRelations relation) {
             // Если модель корректна, то добавляет данные в БД
             if (relation.UserId == null || relation.ToUserId == null) {
-                return ErrorViewModel.Error();
+                throw new ArgumentNullException();
             }
             UsersRelations fr = new UsersRelations {
                 UserId = relation.UserId,
@@ -61,7 +61,7 @@ namespace Publico.Controllers {
         public async Task<IActionResult> SendMessage([FromBody] Messages msg) {
             // Если модель не корректна
             if (msg.ToUserId == null || msg.FromUserId == null || msg.Message == "") {
-                return ErrorViewModel.Error();
+                throw new ArgumentNullException();
             }
             var timeNew = DateTime.UtcNow;  // Получает текущее время
             var objMsg = new Messages {
@@ -128,7 +128,7 @@ namespace Publico.Controllers {
         public async Task<IActionResult> GetMessages([FromBody] Messages msg) {
             // Если модель не корректна
             if (msg.ToUserId == null || msg.FromUserId == null || msg.Message == "") {
-                return ErrorViewModel.Error();
+                throw new ArgumentNullException();
             }
             // Получает список сообщений
             var messagesObject = await (from m1 in db.Messages
