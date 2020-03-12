@@ -119,5 +119,43 @@ namespace Publico.Controllers {
             if (isEmail != null) { ErrorViewModel.EmailNotEmpty(); }
             return Ok("email свободен.");
         }
+        /// <summary>
+        /// Метод проверяет, есть ли в БД пользователь по такому логину или email, смотря что пришло
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpGet, Route("remember")]
+        public async Task<IActionResult> RememberPassword(string param) {
+            User sResult;
+            if (param != "") {
+                if (param.IndexOf("@") >= 0) {
+                    sResult = await db.Users.FirstOrDefaultAsync(p => p.Email == param);
+                    return Ok();
+                }
+                else {
+                    sResult = await db.Users.FirstOrDefaultAsync(p => p.Login == param);
+                    return Ok();
+                }
+            }
+            return ErrorViewModel.NotFoundUser();
+        }
+        /// <summary>
+        /// Метод изменяет пароль пользователя
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, Route("changepassword")]
+        public async Task<IActionResult> ChangePassword(string login, string password) {
+            if (login != "" && password != "") {
+                // Находит пользователя с таким логином
+                var user = await db.Users.FirstOrDefaultAsync(u => u.Login == login);
+                // Хэширует новый пароль
+                var hashPassword = HashMD5Service.HashPassword(password);
+                // Изменяет пароль в модели пользователя
+                user.Password = await hashPassword;                
+                await db.SaveChangesAsync();
+                return Ok();
+            }
+            return ErrorViewModel.ErrorChangePassword();
+        }
     }
 }

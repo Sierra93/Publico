@@ -149,6 +149,45 @@ var app = new Vue({
 				$("#idValidationPassword").addClass("validation-fields-password");
 				throw new Error("Пароли не совпадают");
 			}
+		},
+		// Задает новый пароль
+		onRemember: () => {
+			let sRememberParam = $("#exampleInputRemember").val();
+			var sUser = localStorage.getItem("user");
+			let newPass = $("#id-input-new-password").val();
+			let sUrl = "https://localhost:44323/api/odata/auth/remember?param=" + sRememberParam;
+			let sUrlNewPassword = "https://localhost:44323/api/odata/auth/changepassword?login=" + sUser + "&password=" + newPass;			
+			let promise = new Promise((resolve, reject) => {
+				setTimeout(() => {
+					// Проверяет, существует ли такой email или login
+					axios.get(sUrl)
+						.then((response) => {
+							$("#exampleInputRemember").addClass("hidden");
+							$("#id-input-new-password").removeClass("hidden");
+							resolve();
+						})
+						.catch((XMLHttpRequest) => {
+							console.log("request send error", XMLHttpRequest.response.data);
+							reject();
+						});
+				}, 1);
+			});
+			promise.then(() => {
+				return new Promise((resolve, reject) => {
+					setTimeout(() => {														
+						axios.get(sUrlNewPassword)
+							.then((response) => {
+								resolve();
+							})
+							.catch((XMLHttpRequest) => {
+								console.log("request send error", XMLHttpRequest.response.data);
+								reject();
+							});
+					}, 2);
+				});
+			}).catch(XMLHttpRequest => {
+				console.log(XMLHttpRequest);
+			});	
 		}
 	}
 });
