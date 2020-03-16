@@ -58,29 +58,29 @@ var app = new Vue({
                 }, 1);
             });
             promise.then(() => {
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            let oData = {
-                                FromUserId: +localStorage.getItem("user_id"),
-                                ToUserId: +toUserId,
-                                Message: sMessage
-                            };
-                            // Отправляет сообщение
-                            axios.post(sUrl, oData)
-                                .then((response) => {
-                                    console.log(response);
-                                    resolve();                                    
-                                })
-                                .catch((XMLHttpRequest, textStatus, errorThrown) => {
-                                    console.log("request send error", XMLHttpRequest.response.data);
-                                    reject();
-                                });
-                            resolve();
-                        }, 2);
-                    });
-                }).catch(XMLHttpRequest => {
-                    alert(XMLHttpRequest);
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        let oData = {
+                            FromUserId: +localStorage.getItem("user_id"),
+                            ToUserId: +toUserId,
+                            Message: sMessage
+                        };
+                        // Отправляет сообщение
+                        axios.post(sUrl, oData)
+                            .then((response) => {
+                                console.log(response);
+                                resolve();
+                            })
+                            .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                                console.log("request send error", XMLHttpRequest.response.data);
+                                reject();
+                            });
+                        resolve();
+                    }, 2);
                 });
+            }).catch(XMLHttpRequest => {
+                alert(XMLHttpRequest);
+            });
         },
         // Добавляет друга
         onAddFriend: () => {
@@ -108,42 +108,42 @@ var app = new Vue({
                 }, 1);
             });
             promise.then(() => {
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            let oData = {
-                                UserId: +localStorage.getItem("user_id"),
-                                ToUserId: +toUserId,
-                                Type: "1"
-                            };
-                            // Добавляет пользователя в друзья
-                            axios.post(url, oData)
-                                .then(() => {
-                                    resolve();
-                                })
-                                .catch((XMLHttpRequest, textStatus, errorThrown) => {
-                                    console.log("request send error", XMLHttpRequest.response.data);
-                                    reject();
-                                });
-                            resolve();
-                        }, 2);
-                    });
-                }).catch(XMLHttpRequest => {
-                    console.log(XMLHttpRequest);
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        let oData = {
+                            UserId: +localStorage.getItem("user_id"),
+                            ToUserId: +toUserId,
+                            Type: "1"
+                        };
+                        // Добавляет пользователя в друзья
+                        axios.post(url, oData)
+                            .then(() => {
+                                resolve();
+                            })
+                            .catch((XMLHttpRequest, textStatus, errorThrown) => {
+                                console.log("request send error", XMLHttpRequest.response.data);
+                                reject();
+                            });
+                        resolve();
+                    }, 2);
                 });
+            }).catch(XMLHttpRequest => {
+                console.log(XMLHttpRequest);
+            });
         },
         // Передает имя друга, которому хотим написать
-        onSelectFriend: (event) => {          
+        onSelectFriend: (event) => {
             // Очищает чат при каждом открытии нового чата
-            $("#messagesList").html("");            
+            $("#messagesList").html("");
             // Получает имя друга, которому пишем
             let indFriend = event.target.parentElement.parentElement.childNodes[0].textContent;
-                //event.target.parentElement.childNodes[0].data;
+            //event.target.parentElement.childNodes[0].data;
             localStorage.setItem("indFriend", indFriend);
             app.onGetMessages();
         },
         // Получает все сообщения выбранного чата
-        onGetMessages: () => {                              
-            let userIdTo;       
+        onGetMessages: () => {
+            let userIdTo;
             let arrMessages = [];
             let userNameTo = localStorage.getItem("indFriend");
             let userIdFrom = +localStorage.getItem("user_id");
@@ -177,7 +177,7 @@ var app = new Vue({
                         let oData = {
                             FromUserId: userIdFrom,
                             ToUserId: userIdTo
-                        };                        
+                        };
                         // Получает список сообщений пользователя с которым идет общение в данный момент
                         axios.post(sUrl, oData)
                             .then((response) => {
@@ -196,12 +196,12 @@ var app = new Vue({
                                     li.textContent = encodedMsg;
                                     document.getElementById("messagesList").appendChild(li);
                                 });
-                                resolve();                                           
+                                resolve();
                             })
                             .catch((XMLHttpRequest, textStatus, errorThrown) => {
                                 console.log("request send error", XMLHttpRequest.response.data);
-                                reject();                       
-                            });     
+                                reject();
+                            });
                         resolve();
                     }, 2);
                 });
@@ -233,6 +233,27 @@ var app = new Vue({
             event.preventDefault();
             localStorage.removeItem("token");
             window.location.href = "https://localhost:44323/Home/GoToLogin";
+        },
+        // Прикрепляет файл
+        handleFileUpload() {
+            let sUrl = "https://localhost:44323/api/odata/file/attach";
+            // Получает прикрепленный файл
+            this.file = this.$refs.file.files[0];
+            // Объект с файлом для отправки на бэк
+            let formData = new FormData();
+            // Добавляет полученный файл в объект
+            formData.append('file', this.file);
+            // Отправляет данные на бэк
+            axios.post(sUrl, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+            ).then(() => {
+                console.log('success');
+            }).catch(() => {
+                console.log('fail');
+            });
         }
     }
 });

@@ -58,23 +58,12 @@
 					<div><input class="message-area form-control" type="text" id="messageInput" placeholder="Введите сообщение" /></div>
 				</div>
 				<div class="row btns">
-					<div>
-						<input class="btn btn-primary btn-sm" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" />
-					</div>
-					<div>&nbsp;</div>
-					<div>
-						<input class="btn btn-primary btn-sm" type="button" value="Прикрепить документ" />
-					</div>
-					<div>&nbsp;</div>
-					<div>
-						<input class="btn btn-primary btn-sm" type="button" value="Прикрепить аудиозапись" />
-					</div>
+					<input class="btn btn-primary btn-sm" type="button" id="sendButton" value="Отправить" v-on:click="onSendMessage" />
+					<input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
 				</div>
 			</div>
 		</div>
-	</div>
-	@*<script src="~/js/signalr/dist/browser/signalr.js"></script>*@
+	</div>	
 	<script src="~/js/Chat.js"></script>
-	@*<script src="~/js/AuthClient.js"></script>*@
 </body>
 </html>

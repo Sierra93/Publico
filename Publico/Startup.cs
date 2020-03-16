@@ -24,6 +24,15 @@ namespace Publico {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+
+            // Обязательно нужно для кроссдоменных запросов с фронта
+            //-----------------------------------------------------------
+            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder => {
+                builder.WithOrigins("http://apihosting.online").AllowAnyMethod().AllowAnyHeader();
+            }));
+            services.AddMvc(option => option.EnableEndpointRouting = false);
+            //-----------------------------------------------------------
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -38,6 +47,8 @@ namespace Publico {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            app.UseCors("ApiCorsPolicy");   // Для кроссдоменных запросов с фронта
+            app.UseMvc();
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -58,7 +69,7 @@ namespace Publico {
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=GoToChat}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

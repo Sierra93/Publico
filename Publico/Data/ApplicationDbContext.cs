@@ -11,6 +11,7 @@ namespace Publico.Data {
         public DbSet<Messages> Messages { get; set; }
         public DbSet<MessagesTranslate> MessageTranslate { get; set; }
         public DbSet<UsersRelations> UsersRelations { get; set; }
+        public DbSet<FileModel> Files { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) {
             Database.EnsureCreated();

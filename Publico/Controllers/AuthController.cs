@@ -19,7 +19,6 @@ namespace Publico.Controllers {
     [ApiController, Route("api/odata/auth")]
     public class AuthController : Controller {
         private ApplicationDbContext db;
-        public AuthController() { }
         public AuthController(ApplicationDbContext context) {
             db = context;
         }
