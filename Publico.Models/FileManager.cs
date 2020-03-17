@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Publico.Models {
+    /// <summary>
+    /// Сервис сохраняет файл в папку files
+    /// </summary>
     public class FileManager {
         public async Task<bool> UploadFile(IFormFile file) {
             try {
@@ -26,7 +29,7 @@ namespace Publico.Models {
                         }
                     }
                     else {
-                        throw new Exception("Файл должен быть формата .png, .JPG, .docx");
+                        throw new Exception("Файл должен быть формата .png, .JPG, .docx, .csv, .xlsx");
                     }
                 }
                 return isCopied;

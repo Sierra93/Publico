@@ -5,7 +5,7 @@ using Publico.Models;
 
 namespace Publico.Models {
     /// <summary>
-    /// Класс загрузки файла
+    /// Модель загрузки файла
     /// </summary>
     public class FileModel {
         public int Id { get; set; }

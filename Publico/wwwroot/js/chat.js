@@ -34,6 +34,7 @@ var app = new Vue({
             let toUserName = localStorage.getItem("indFriend");
             const sUrl = "https://localhost:44323/api/odata/data/sendmessage";
             const sUrlUser = "https://localhost:44323/api/odata/data/getuser?user=" + toUserName;
+            let fileName = localStorage.getItem("fileName");
             // Получает введенное сообщение
             let sMessage = $("#messageInput").val();
             var toUserId;
@@ -63,7 +64,8 @@ var app = new Vue({
                         let oData = {
                             FromUserId: +localStorage.getItem("user_id"),
                             ToUserId: +toUserId,
-                            Message: sMessage
+                            Message: sMessage,
+                            AttachFileName: fileName
                         };
                         // Отправляет сообщение
                         axios.post(sUrl, oData)
@@ -229,16 +231,17 @@ var app = new Vue({
                 });
         },
         // Выходит из учетной записи
-        onOut: () => {
+        onOut() {
             event.preventDefault();
             localStorage.removeItem("token");
             window.location.href = "https://localhost:44323/Home/GoToLogin";
         },
         // Прикрепляет файл
-        handleFileUpload() {
+        onAttachFile() {
             let sUrl = "https://localhost:44323/api/odata/file/attach";
             // Получает прикрепленный файл
             this.file = this.$refs.file.files[0];
+            let fileName = this.file.name;
             // Объект с файлом для отправки на бэк
             let formData = new FormData();
             // Добавляет полученный файл в объект
@@ -250,7 +253,7 @@ var app = new Vue({
                 }
             }
             ).then(() => {
-                console.log('success');
+                localStorage.setItem("fileName", fileName);
             }).catch(() => {
                 console.log('fail');
             });

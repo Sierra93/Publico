@@ -12,6 +12,7 @@ namespace Publico.Models {
         public int? ToUserId { get; set; }
         public string Message { get; set; }
         public DateTime Time { get; set; }
+        public string AttachFileName { get; set; } 
         public List<MultepleContextTable> MultepleContextTables { get; set; }
         public Messages() {
             MultepleContextTables = new List<MultepleContextTable>();

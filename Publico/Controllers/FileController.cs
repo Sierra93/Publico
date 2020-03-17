@@ -28,10 +28,11 @@ namespace Publico.Controllers {
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost, Route("attach")]
-        public async Task <IActionResult> AttachFile(IFormCollection file) {
+        public async Task<IActionResult> AttachFile(IFormCollection file) {
             string storePath = "wwwroot/files/";   // Путь к папке с изображениями
-            if (file.Files == null || file.Files[0].Length == 0)
-                return RedirectToAction("Index");
+            if (file.Files == null || file.Files[0].Length == 0) {
+                throw new ArgumentNullException();
+            }
             // Полный локальный путь к файлу включая папку проекта wwwroot
             var path = Path.Combine(
                         Directory.GetCurrentDirectory(), storePath,
