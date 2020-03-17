@@ -140,7 +140,8 @@ namespace Publico.Controllers {
                                         && m1.FromUserId == msg.ToUserId
                                         select new {
                                             messages = m1.Message,
-                                            login = m2.Login
+                                            login = m2.Login,
+                                            file = m1.AttachFileName
                                         }).ToListAsync();
             return Json(messagesObject);
         }

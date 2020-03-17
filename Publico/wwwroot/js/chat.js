@@ -198,6 +198,15 @@ var app = new Vue({
                                     li.textContent = encodedMsg;
                                     document.getElementById("messagesList").appendChild(li);
                                 });
+                                $(response.data).each((ind, el) => {
+                                    if (el.file !== null) {
+                                        let encodedMsg = "вложение: " + el.file;
+                                        let li = document.createElement("li");
+                                        li.textContent = encodedMsg;
+                                        li.classList.add("link");
+                                        document.getElementById("messagesList").appendChild(li);
+                                    }
+                                });
                                 resolve();
                             })
                             .catch((XMLHttpRequest, textStatus, errorThrown) => {

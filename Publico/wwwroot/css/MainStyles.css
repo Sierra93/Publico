@@ -96,6 +96,11 @@
 .hidden {
   display: none;
 }
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+  color: blue;
+}
 .validation-email {
   color: red;
   display: flex;
