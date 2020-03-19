@@ -145,3 +145,8 @@
   flex-flow: row-reverse;
   display: flex;
 }
+.messages-fon {
+  background-color: aquamarine;
+  width: 650px;
+  margin: 6px;
+}

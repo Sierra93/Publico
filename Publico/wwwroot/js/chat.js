@@ -202,7 +202,7 @@ var app = new Vue({
                                 $(messages).each((ind, el) => {
                                     let encodedMsg = el.login + ": " + el.messages;
                                     let li = $("<li></li>");
-                                    $(li).text(encodedMsg);
+                                    $(li).text(encodedMsg);                               
                                     $("#messagesList").append(li);
                                 });
                                 // Выводит вложения
@@ -228,6 +228,7 @@ var app = new Vue({
                                         $("#messagesList").append(li);
                                     }
                                 });
+                                $("#messagesList li").addClass("messages-fon");    
                                 resolve();
                             })
                             .catch((XMLHttpRequest, textStatus, errorThrown) => {
