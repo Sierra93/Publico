@@ -138,7 +138,8 @@ var app = new Vue({
             // Очищает чат при каждом открытии нового чата
             $("#messagesList").html("");
             // Получает имя друга, которому пишем
-            let indFriend = event.target.parentElement.parentElement.childNodes[0].textContent;
+            let indFriend = event.target.parentElement.parentElement.childNodes[0].innerText;
+            //event.target.parentElement.parentElement.childNodes[0].textContent;
             //event.target.parentElement.childNodes[0].data;
             localStorage.setItem("indFriend", indFriend);
             app.onGetMessages();
@@ -192,19 +193,34 @@ var app = new Vue({
                                 // Выводит имя друга, которому собираемся писать
                                 $("#idFriendName").html(friendName);
                                 let messages = JSON.parse(localStorage.getItem("messages"));
-                                messages.forEach((el) => {
+                                // Выводит сообщения
+                                $(messages).each((ind, el) => {
                                     let encodedMsg = el.login + ": " + el.messages;
-                                    let li = document.createElement("li");
-                                    li.textContent = encodedMsg;
-                                    document.getElementById("messagesList").appendChild(li);
+                                    let li = $("<li></li>");
+                                    $(li).text(encodedMsg);
+                                    $("#messagesList").append(li);
                                 });
+                                // Выводит вложения
                                 $(response.data).each((ind, el) => {
                                     if (el.file !== null) {
-                                        let encodedMsg = "вложение: " + el.file;
-                                        let li = document.createElement("li");
-                                        li.textContent = encodedMsg;
-                                        li.classList.add("link");
-                                        document.getElementById("messagesList").appendChild(li);
+                                        let encodedMsg = el.file;
+                                        let li = $("<li></li>");
+                                        let a = $("<a></a>", {
+                                            text: encodedMsg,
+                                            click: () => {
+                                                const sUrl = "https://localhost:44323/api/odata/file/downloadfile?fileName=" + encodedMsg;
+                                                axios.get(sUrl)
+                                                    .then(() => {
+                                                        alert("Файл успешно загружен. Проверьте папку C:\downloads");
+                                                    })
+                                                    .catch((XMLHttpRequest) => {
+                                                        console.log("request send error", XMLHttpRequest.response.data);
+                                                    });
+                                            }
+                                        });
+                                        $(li).append(a);
+                                        a.attr("href", "#");
+                                        $("#messagesList").append(li);
                                     }
                                 });
                                 resolve();
@@ -224,7 +240,8 @@ var app = new Vue({
         // Удаляет друга
         onDeleteFriend: () => {
             event.preventDefault();
-            let sNameFriend = event.target.parentElement.childNodes[0].data;
+            let sNameFriend = event.target.parentElement.parentElement.childNodes[0].innerText;
+            //event.target.parentElement.childNodes[0].data;
             let sUrl = "https://localhost:44323/api/odata/data/deletefriend";
             let oData = {
                 UserFrom: +localStorage.getItem("user_id"),
@@ -232,11 +249,9 @@ var app = new Vue({
             };
             axios.post(sUrl, oData)
                 .then(() => {
-                    resolve();
                 })
                 .catch((XMLHttpRequest) => {
                     console.log("request send error", XMLHttpRequest.response.data);
-                    reject();
                 });
         },
         // Выходит из учетной записи

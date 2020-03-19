@@ -8,6 +8,8 @@ using Publico.Models;
 using Publico.Data;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Net;
+using System.Threading;
 
 namespace Publico.Controllers {
     /// <summary>
@@ -40,6 +42,25 @@ namespace Publico.Controllers {
             using (var stream = new FileStream(path, FileMode.Create)) {
                 await file.Files[0].CopyToAsync(stream);
             }
+            return Ok();
+        }
+        /// <summary>
+        /// Метод скачивает файл из папки files и сохраняет в папку C:\downloads\
+        /// </summary>
+        /// <param name="fileName">Имя файла</param>
+        /// <returns></returns>
+        [HttpGet, Route("downloadfile")]
+        public async Task<IActionResult> DownloadFile(string fileName) {
+            string sPathTo = @"C:\downloads\";  // Куда будет загружать файл
+            string path = Path.GetFullPath(fileName);
+            // Откуда будет скачивать файл
+            var sPathFrom = @"\\Mac\Home\Documents\MyPortfolio\Publico\Publico\wwwroot\files\" + fileName;
+            if (!Directory.Exists(sPathTo)) {
+                Directory.CreateDirectory(sPathTo);
+            }
+            WebClient client = new WebClient();            
+            // Загружает файл
+            client.DownloadFile(path, sPathTo + fileName);
             return Ok();
         }
     }

@@ -20,5 +20,6 @@ namespace Publico.Models {
         public static IActionResult RemoveError() { throw new Exception("Ошибка удаления."); }
         // Если не удалось изменить пароль
         public static IActionResult ErrorChangePassword() { throw new Exception("Ошибка изменения пароля"); }
+        public static IActionResult ErrorEqualHash() { throw new Exception("Пароли не совпадают."); } 
     }
 }

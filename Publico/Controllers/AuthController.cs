@@ -13,6 +13,7 @@ using System.Security.Claims;
 using Publico.Services;
 using System.Security.Cryptography;
 using System.Text;
+using System.Collections;
 
 namespace Publico.Controllers {
     // Авторизация и регистрация пользователей
@@ -49,13 +50,20 @@ namespace Publico.Controllers {
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost, Route("signin")]
-        public IActionResult GetUserFromDb([FromBody] UserSignIn user) {
-            User userobj = new User();  // Объект пользователя, из которого возьмем только ID для возврата фронту
+        public async Task<IActionResult> GetUserFromDb([FromBody] UserSignIn user) {
+            User userobj = new User();
             if (user.Login == null || user.Password == null) {
                 throw new ArgumentNullException();
             }
+            // Хэширует пароль для сравнения зашифрованных паролей
+            string checkHashString = await HashMD5Service.HashPassword(user.Password);
+            // Сравнивает хэши
+            var isEqual = await EqualsHash(user.Login);
+            if (isEqual != checkHashString) {
+                return ErrorViewModel.ErrorEqualHash();
+            }
             // Проверяет, есть ли пользователь в БД
-            var identity = GetIdentity(user.Login, user.Password);
+            var identity = await GetIdentity(user.Login, isEqual);            
             // Если пользователь найден, то получаем его ID 
             if (identity != null) {
                 userobj = db.Users.FirstOrDefault(x => x.Login == user.Login);
@@ -84,7 +92,7 @@ namespace Publico.Controllers {
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public ClaimsIdentity GetIdentity(string login, string password) {
+        public async Task <ClaimsIdentity> GetIdentity(string login, string password) {
             var checkUser = db.Users.FirstOrDefault(l => l.Login == login && l.Password == password);
             if (checkUser != null) {
                 var claims = new List<Claim> {
@@ -156,6 +164,16 @@ namespace Publico.Controllers {
                 return Ok();
             }
             return ErrorViewModel.ErrorChangePassword();
+        }
+        public async Task<string> EqualsHash(string login) {
+            string hashDb = "";
+            var getHashPassword = await (from u in db.Users
+                                         where u.Login == login
+                                         select u.Password).ToListAsync();
+            foreach (var el in getHashPassword) {
+                hashDb = el;
+            }
+            return hashDb;
         }
     }
 }

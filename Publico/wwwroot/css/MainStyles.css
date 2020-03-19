@@ -72,6 +72,10 @@
   flex-direction: column;
   align-items: center;
   background-color: aliceblue;
+  /*max-height: 500px;
+    height: 500px;*/
+  /*overflow-y: auto;
+    padding-top: 110px;*/
 }
 .friends .friends-list {
   list-style: none;
