@@ -60,17 +60,22 @@ var app = new Vue({
             });
             promise.then(() => {
                 return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        let oData = {
+                    setTimeout(() => {                        
+                        var oData = {
                             FromUserId: +localStorage.getItem("user_id"),
                             ToUserId: +toUserId,
-                            Message: sMessage,
-                            AttachFileName: fileName
+                            Message: sMessage
+                            //AttachFileName: fileName
                         };
+                        if (app.$refs.file.files.length > 0) {
+                            app.onAttachFile();    
+                            oData.AttachFileName = fileName;
+                        }
                         // Отправляет сообщение
                         axios.post(sUrl, oData)
                             .then((response) => {
                                 console.log(response);
+                                $("#file").val("");
                                 resolve();
                             })
                             .catch((XMLHttpRequest, textStatus, errorThrown) => {

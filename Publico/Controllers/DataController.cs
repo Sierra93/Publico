@@ -68,9 +68,11 @@ namespace Publico.Controllers {
                 FromUserId = msg.FromUserId,
                 ToUserId = msg.ToUserId,
                 Message = msg.Message,
-                Time = timeNew,
-                AttachFileName = msg.AttachFileName
+                Time = timeNew
             };
+            if (msg.AttachFileName != null) {
+                objMsg.AttachFileName = msg.AttachFileName;
+            }
             await db.Messages.AddAsync(objMsg);
             await db.SaveChangesAsync();
             return Ok();
