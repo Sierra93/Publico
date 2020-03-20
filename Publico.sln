@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publico.Services", "Publico
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publico.Models", "Publico.Models\Publico.Models.csproj", "{0397EE77-4F71-4A9B-92CD-213D3A2F54A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Publico.Tests", "Publico.Tests\Publico.Tests.csproj", "{3C20D8D2-21EF-4028-89C5-E1A3698E0A7E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0397EE77-4F71-4A9B-92CD-213D3A2F54A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0397EE77-4F71-4A9B-92CD-213D3A2F54A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0397EE77-4F71-4A9B-92CD-213D3A2F54A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C20D8D2-21EF-4028-89C5-E1A3698E0A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C20D8D2-21EF-4028-89C5-E1A3698E0A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C20D8D2-21EF-4028-89C5-E1A3698E0A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C20D8D2-21EF-4028-89C5-E1A3698E0A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
